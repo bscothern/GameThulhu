@@ -12,6 +12,16 @@ import GameController
 /// A wrapper for `GCController` that can only be constructed if the given `GCController` is a `GCExtendedGamepad`. It provides lots of convenient functionality for interactions with the gamepad.
 public class ExtendedGamepad: Gamepad {
     //MARK:- Types
+    //MARK: Private
+    enum PrivateError: Error {
+        case invaidElement
+        case elementNotFound
+    }
+    
+    private typealias WrappedButtonCallback = (id: CallbackIdentifier, callback: OnButtonChangeCallback)
+    private typealias WrappedDirectionalPadCallback = (id: CallbackIdentifier, callback: OnDirectionalPadChangeCallback)
+    
+    //MARK: Public
     
     /// A funciton that will be called when a value changes on any `ExtendedGamepad.Element`.
     ///
@@ -32,13 +42,13 @@ public class ExtendedGamepad: Gamepad {
     /// A function that will be called when a value changes on any `ExtendedGamepad.DirectionalPadElement`.
     ///
     /// - parameters:
-    ///     - gamepad:
-    ///     - directionalPad:
-    ///     - xValue:
-    ///     - yValue:
+    ///     - gamepad: The `ExtendedGamepad` that had a value change.
+    ///     - directionalPad: The `DirectonalPadElement` that has changed.
+    ///     - xValue: The value of the directional pad along the x-axis. This ranges from `-1.0` (maximum left) to `1.0` (maximum right).
+    ///     - yValue: The value of the directional pad along the y-axis. This ranges from `-1.0` (maximum down) to `1.0` (maximum up).
     public typealias OnDirectionalPadChangeCallback = (_ gamepad: ExtendedGamepad, _ directionalPad: DirectionalPadElement, _ xValue: Float, _  yValue: Float) -> Void
     
-    /// A `CallbackIdentifier` is given when adding a new callback. It can be used to remove the callback.
+    /// A `CallbackIdentifier` is given/returned when adding a callback to any `ExtendedGamepad.Element`. Multiple callbacks can use the same `CallbackIdentifier` if you wish to unregister them.
     public typealias CallbackIdentifier = UUID
     
     /// Any Element that can be part of an `ExtendedGamepad`. It is enclosed within this enum in order to use this as the generic return/input type.
@@ -72,19 +82,10 @@ public class ExtendedGamepad: Gamepad {
     /// - L2: The **L2** trigger on a controller
     /// - R1: The **R1** bumper on a controller
     /// - R2: The **R2** trigger on a controller
-    /// - dPadUp: The **Up** button on a D-Pad
-    /// - dPadDown: The **Down** button on a D-Pad
-    /// - dPadLeft: The **Left** button on a D-Pad
-    /// - dPadRight: The **Right** button on a D-Pad
-    /// - leftJoystickUp: The **Up** component of the **Left Joystick** on a controller
-    /// - leftJoystickDown: The **Down** component of the **Left Joystick** on a controller
-    /// - leftJoystickLeft: The **Left** component of the **Left Joystick** on a controller
-    /// - leftJoystickRight: The **Right** component of the **Left Joystick** on a controller
-    /// - rightJoystickUp: he **Up** component of the **Right Joystick** on a controller
-    /// - rightJoystickDown: The **Down** component of the **Right Joystick** on a controller
-    /// - rightJoystickLeft: The **Left** component of the **Right Joystick** on a controller
-    /// - rightJoystickRight: The **Right** component of the **Right Joystick** on a controller
-    public enum ButtonElement: ExtendedGamepadElementProtocol {
+    /// - dPad: The **D-Pad** on a controller along with the `Direction` that is desired on it.
+    /// - leftJoystick: The **Left Joystick** on a controller along with the `Direction` that is desired on it.
+    /// - rightJoystick: The **Right Joystick** on a controller along with the `Direction` that is desired on it.
+    public enum ButtonElement: ExtendedGamepadElementProtocol, Hashable {
         
         /// The directions that a directional pad `ExtendedGamepad.ButtonElement` can be pushed when it is being considered as a button. This applies to the following `ExtendedGamepad.ButtonElement` values:
         /// * `.dPad`
@@ -130,13 +131,13 @@ public class ExtendedGamepad: Gamepad {
         /// The **R2** trigger on a controller
         case R2
         
-        /// The **Up** button on a D-Pad
+        /// The **D-Pad** on a controller along with the `Direction` that is desired on it.
         case dPad(Direction)
         
-        /// The **Left Joystick** on a controller and the `Direction` that is desired on it.
+        /// The **Left Joystick** on a controller along with the `Direction` that is desired on it.
         case leftJoystick(Direction)
         
-        /// The **Up** component of the **Right Joystick** on a controller
+        /// The **Right Joystick** on a controller along with the `Direction` that is desired on it.
         case rightJoystick(Direction)
         
         public func gcElement(gamepad: GCExtendedGamepad) ->  GCControllerElement {
@@ -201,12 +202,76 @@ public class ExtendedGamepad: Gamepad {
             return .button(self)
         }
         
+        /// The `ExtendedGampepad.ButtonElement.Direction` that this the `ExtendedGamepad.ButtonElement` is refering to if applicable.
+        /// If the `ExtendedGamepad.ButtonElement` is not a directional pad type, then `nil` is returned instead.
         var direction: Direction? {
             switch self {
             case .dPad(let direction), .leftJoystick(let direction), .rightJoystick(let direction):
                 return direction
             default:
                 return nil
+            }
+        }
+        
+        //MARK:- Protocol Conformance
+        
+        //MARK: Equatable
+        public static func ==(lhs: ExtendedGamepad.ButtonElement, rhs: ExtendedGamepad.ButtonElement) -> Bool {
+            return lhs.hashValue == rhs.hashValue
+        }
+        
+        //MARK: Hashable
+        public var hashValue: Int {
+            switch self {
+            case .buttonA:
+                return 0
+            case .buttonB:
+                return 1
+            case .buttonX:
+                return 2
+            case .buttonY:
+                return 3
+            case .L1:
+                return 4
+            case .L2:
+                return 5
+            case .R1:
+                return 6
+            case .R2:
+                return 7
+            case .dPad(let direction):
+                switch direction {
+                case .up:
+                    return 8
+                case .down:
+                    return 9
+                case .left:
+                    return 10
+                case .right:
+                    return 11
+                }
+            case .leftJoystick(let direction):
+                switch direction {
+                case .up:
+                    return 12
+                case .down:
+                    return 13
+                case .left:
+                    return 14
+                case .right:
+                    return 15
+                }
+            case .rightJoystick(let direction):
+                switch direction {
+                case .up:
+                    return 16
+                case .down:
+                    return 17
+                case .left:
+                    return 18
+                case .right:
+                    return 19
+                }
             }
         }
     }
@@ -242,6 +307,7 @@ public class ExtendedGamepad: Gamepad {
     
     //MARK:- Properties
     //MARK: Private
+    
     /// Used to access the GCExtendedGamepad for this object.
     fileprivate var extendedGamepad: GCExtendedGamepad {
         return controller.extendedGamepad!
@@ -251,24 +317,25 @@ public class ExtendedGamepad: Gamepad {
     private let valueChangedCallbacksLock = NSLock()
     
     /// This dictionary is used to keep track of value changed callbacks in such a way that they can be removed if desired.
-    private var valueChangedCallbacks: [CallbackIdentifier: ValueChangeCallback] = [:]
+    private var valueChangedCallbacks: [CallbackIdentifier: [ValueChangeCallback]] = [:]
     
     /// Used to protect `var onButtonChangeCallbacks`.
     private let onButtonChangeCallbacksLock = NSLock()
     
     /// This dictionary is used to keep track of callbacks for On Change events of Buttons in such a way that they can be removed if desired.
-    private var onButtonChangeCallbacks: [CallbackIdentifier: OnButtonChangeCallback] = [:]
+    private var onButtonChangeCallbacks: [ButtonElement: [WrappedButtonCallback]] = [:]
     
     /// Used to protect `var onDirectionalPadChangeCallbacks`.
     private let onDirectionalPadChangeCallbackLock = NSLock()
     
     /// This dictionary is used to keep track of callbacks for On Change events of Direcitonal Pads in such a way that they can be removed if desired.
-    private var onDirectionalPadChangeCallbacks: [CallbackIdentifier: OnDirectionalPadChangeCallback] = [:]
+    private var onDirectionalPadChangeCallbacks: [DirectionalPadElement: [WrappedDirectionalPadCallback]] = [:]
     
     /// Used to bridge GCControlerElement's to the element type quickly.
     private var elementMap: [HashableWeakVar<GCControllerElement>: ExtendedGamepad.Element] = [:]
     
     //MARK: Public
+    
     /// The current view of the ExtendedGamepad's values.
     public var snapshot: ExtendedSnapshot {
         return ExtendedSnapshot(rawSnapshot)
@@ -322,94 +389,168 @@ public class ExtendedGamepad: Gamepad {
     }
     
     //MARK:- Funcs
-    public func onChange(callback: @escaping ValueChangeCallback) -> CallbackIdentifier {
-        return valueChangedCallbacksLock.valuedExecute {
-            let callbackID = CallbackIdentifier()
-            
-            if self.valueChangedCallbacks.isEmpty {
-                self.extendedGamepad.valueChangedHandler = onChangeHandler
-            }
-            
-            self.valueChangedCallbacks[callbackID] = callback
-            return callbackID
-        }
-    }
+    //MARK: Private
     
+    /// The callback for `GCExtendedGamepad.valueChangedHandler`.
+    ///
+    /// - Parameters:
+    ///   - gamepad: The `GCExtnededGamepad` which has changed.
+    ///   - gcElement: The `GCControllerElement` that has changed on the `gamepad`.
     private func onChangeHandler(gamepad: GCExtendedGamepad, gcElement: GCControllerElement) {
-        let callbacks = valueChangedCallbacksLock.valuedExecute { self.valueChangedCallbacks }
-        
         guard let element = elementMap[gcElement] ?? gcElement.elementTypeFrom(gamepad: self.extendedGamepad) else {
             return
         }
         
-        for callback in callbacks.values {
-            callback(self, element)
-        }
-    }
-    
-    public func onChange(button: ButtonElement, callback: @escaping OnButtonChangeCallback) -> CallbackIdentifier {
-        guard let gcButton = button.gcElement(gamepad: extendedGamepad) as? GCControllerButtonInput else {
-            fatalError("ButtonElement has returned an element that wasnt a GCControllerButtonInput")
-        }
-        
-        return onButtonChangeCallbacksLock.valuedExecute {
-            let callbackId = CallbackIdentifier()
-            
-            if self.onButtonChangeCallbacks.isEmpty {
-                gcButton.valueChangedHandler = onChangeButtonHandler
+        let callbacksCopy = valueChangedCallbacksLock.valuedExecute { self.valueChangedCallbacks }
+        for callbacks in callbacksCopy.values {
+            for callback in callbacks {
+                callback(self, element)
             }
-            
-            self.onButtonChangeCallbacks[callbackId] = callback
-            return callbackId
         }
     }
     
-    private func onChangeButtonHandler(gcButton: GCControllerButtonInput, value: Float, pressed: Bool) {
-        let callbacks = onButtonChangeCallbacksLock.valuedExecute { self.onButtonChangeCallbacks }
-        
+    /// Create an efficient callback for the given gcButton.
+    ///
+    /// - Parameter gcButton: The button that will be watched with this callback.
+    /// - Throws: `PrivateError.elementNotFound` is thrown when the element cannot be found and `PrivateError.inalidElement` is thrown if the elemet is not a `ExtednedGamepad.Element.button` in the mapping
+    private func createOnChangeButtonHandler(gcButton: GCControllerButtonInput) throws -> ((_ gcButton: GCControllerButtonInput, _ value: Float, _ pressed: Bool) -> Void) {
         guard let element = (elementMap[gcButton] ?? gcButton.elementTypeFrom(gamepad: extendedGamepad)) else {
-            fatalError("Unable to convert gcElement into ButtonElement")
+            throw PrivateError.elementNotFound
+        }
+        if case .button(let button) = element {
+            return { [weak self](gcButton: GCControllerButtonInput, value: Float, pressed: Bool) -> Void in
+                guard let _self = self,
+                    let callbacks = _self.onButtonChangeCallbacksLock.valuedExecute({ _self.onButtonChangeCallbacks[button] })
+                    else {
+                        return
+                }
+
+                for callback in callbacks {
+                    callback.callback(_self, button, value, pressed)
+                }
+            }
+        }
+        throw PrivateError.invaidElement
+    }
+    
+    private func createOnChangeDirectionalPadHandler(gcDirectionalPad: GCControllerDirectionPad) throws -> ((_ gcDirectionalPad: GCControllerDirectionPad, _ xValue: Float, _ yValue: Float) -> Void) {
+        guard let element = (elementMap[gcDirectionalPad] ?? gcDirectionalPad.elementTypeFrom(gamepad: extendedGamepad)) else {
+            throw PrivateError.elementNotFound
+        }
+        if case .directionalPad(let directionalPad) = element {
+            return { [weak self](gcDirectionalPad: GCControllerDirectionPad, xValue: Float, yValue: Float) -> Void in
+                guard let _self = self,
+                    let callbacks = _self.onDirectionalPadChangeCallbackLock.valuedExecute({ _self.onDirectionalPadChangeCallbacks[directionalPad] })
+                    else {
+                        return
+                }
+                
+                for callback in callbacks {
+                    callback.callback(_self, directionalPad, xValue, yValue)
+                }
+            }
+        }
+        throw PrivateError.invaidElement
+    }
+    
+    //MARK: Public
+    
+    @discardableResult public func onChange(callbackIdentifier: CallbackIdentifier = CallbackIdentifier(), callback: @escaping ValueChangeCallback) -> CallbackIdentifier {
+        valueChangedCallbacksLock.execute {
+            if self.valueChangedCallbacks.isEmpty {
+                self.extendedGamepad.valueChangedHandler = onChangeHandler
+            }
+            if self.valueChangedCallbacks[callbackIdentifier] == nil {
+                self.valueChangedCallbacks[callbackIdentifier] = []
+            }
+            self.valueChangedCallbacks[callbackIdentifier]!.append(callback)
+        }
+        return callbackIdentifier
+    }
+    
+    public func unregisterValueChangedCallback(callbackIdentifier: CallbackIdentifier) {
+        valueChangedCallbacksLock.execute {
+            self.valueChangedCallbacks.removeValue(forKey: callbackIdentifier)
+        }
+    }
+    
+    @discardableResult public func onChange(button: ButtonElement, callbackIdentifier: CallbackIdentifier = CallbackIdentifier(), callback: @escaping OnButtonChangeCallback) -> CallbackIdentifier {
+        guard let gcButton = button.gcElement(gamepad: extendedGamepad) as? GCControllerButtonInput else {
+            fatalError()
         }
         
-        if case .button(let element) = element {
-            for callback in callbacks.values {
-                callback(self, element, value, pressed)
+        onButtonChangeCallbacksLock.execute {
+            if self.onButtonChangeCallbacks.isEmpty {
+                do {
+                    gcButton.valueChangedHandler = try createOnChangeButtonHandler(gcButton: gcButton)
+                } catch {
+                    print("createOnChangeButtonHandler Failure: \(error)")
+                    return
+                }
+                
+                self.onButtonChangeCallbacks[button] = []
+            }
+            
+            self.onButtonChangeCallbacks[button]!.append((callbackIdentifier, callback))
+        }
+        return callbackIdentifier
+    }
+    
+    public func unregisterButtonCallback(button: ButtonElement, callbackIdentifier: CallbackIdentifier) {
+        onButtonChangeCallbacksLock.execute {
+            guard let array: [ExtendedGamepad.WrappedButtonCallback] = self.onButtonChangeCallbacks[button] else {
+                return
+            }
+            self.onButtonChangeCallbacks[button] = array.flatMap { (callback: WrappedButtonCallback) in
+                guard callback.id != callbackIdentifier else {
+                    return nil
+                }
+                return callback
             }
         }
     }
     
-    public func onChange(directionalPad: DirectionalPadElement, callback: @escaping OnDirectionalPadChangeCallback) -> CallbackIdentifier {
+    @discardableResult public func onChange(directionalPad: DirectionalPadElement, callbackIdentifier: CallbackIdentifier = CallbackIdentifier(), callback: @escaping OnDirectionalPadChangeCallback) -> CallbackIdentifier {
         guard let gcDicrectionalPad = directionalPad.gcElement(gamepad: extendedGamepad) as? GCControllerDirectionPad  else {
             fatalError()
         }
-        return onDirectionalPadChangeCallbackLock.valuedExecute {
-            let callbackId = CallbackIdentifier()
-            
+        onDirectionalPadChangeCallbackLock.execute {
             if self.onDirectionalPadChangeCallbacks.isEmpty {
-                gcDicrectionalPad.valueChangedHandler = onChangeDirectionalPadHandler
+                do {
+                    gcDicrectionalPad.valueChangedHandler = try createOnChangeDirectionalPadHandler(gcDirectionalPad: gcDicrectionalPad)
+                } catch {
+                    print("createOnChangeDirectionalPadHandler Failure: \(error)")
+                    return
+                }
+                
+                self.onDirectionalPadChangeCallbacks[directionalPad] = []
             }
             
-            self.onDirectionalPadChangeCallbacks[callbackId] = callback
-            return callbackId
+            self.onDirectionalPadChangeCallbacks[directionalPad]!.append((callbackIdentifier, callback))
         }
+        return callbackIdentifier
     }
     
-    private func onChangeDirectionalPadHandler(gcDirectionalPad: GCControllerDirectionPad, xValue: Float, yValue: Float) {
-        let callbacks = onDirectionalPadChangeCallbackLock.valuedExecute { self.onDirectionalPadChangeCallbacks }
-        
-        guard let element = (elementMap[gcDirectionalPad] ?? gcDirectionalPad.elementTypeFrom(gamepad: extendedGamepad)) else {
-            fatalError()
-        }
-        
-        if case .directionalPad(let directionalPad) = element {
-            for callback in callbacks.values {
-                callback(self, directionalPad, xValue, yValue)
+    public func unregisterDirectionalPadCallback(directionalPad: DirectionalPadElement, callbackIdentifier: CallbackIdentifier) {
+        onDirectionalPadChangeCallbackLock.execute {
+            guard let array = self.onDirectionalPadChangeCallbacks[directionalPad] else {
+                return
+            }
+            self.onDirectionalPadChangeCallbacks[directionalPad] = array.flatMap { (callback: WrappedDirectionalPadCallback) in
+                guard callback.id != callbackIdentifier else {
+                    return nil
+                }
+                return callback
             }
         }
     }
 }
 
 fileprivate extension GCControllerElement {
+    /// Bridge a `GCControllerElement` to the correct `ExtendedGamepad.Element` by inspecing the given `gamepad`.
+    ///
+    /// - Parameter gamepad: The `gamepad` which should be inspected for this `GCControllerElement`.
+    /// - Returns: The `ExtendedGampepad.Element` that cooresponds to the `self` if it is part of the `gamepad`, `nil` otherwise.
     func elementTypeFrom(gamepad: GCExtendedGamepad) -> ExtendedGamepad.Element? {
         switch self {
         case gamepad.buttonA:
@@ -471,6 +612,9 @@ fileprivate extension GCControllerElement {
 }
 
 fileprivate extension Dictionary where Dictionary.Key == HashableWeakVar<GCControllerElement> {
+    /// Allows the use of a `GCControllerElement` as the key rather than needing to wrap it in a `HashableWeakVar`.
+    ///
+    /// - Parameter rawKey: The `GCControllerElement` with a cooresponding element that is desired.
     subscript(rawKey: GCControllerElement) -> Dictionary.Value? {
         get {
             return self[HashableWeakVar(rawKey)]
