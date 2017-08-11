@@ -36,7 +36,7 @@ public struct ExtendedSnapshot {
     public let R2: Button
     
     /// A `DirectionalPad` representing the **D-Pad** on a controller.
-    public let directionalPad: DirectionalPad
+    public let dPad: DirectionalPad
     
     /// A `DirectionalPad` representing the **Left Joystick** on a controller.
     public let leftJoystick: DirectionalPad
@@ -54,7 +54,7 @@ public struct ExtendedSnapshot {
         buttonX = Button(snapshot.buttonX)
         buttonY = Button(snapshot.buttonY)
         
-        directionalPad = DirectionalPad(snapshot.dpad)
+        dPad = DirectionalPad(snapshot.dpad)
         
         L1 = Button(snapshot.leftShoulder)
         L2 = Button(snapshot.leftTrigger)
@@ -69,7 +69,7 @@ public struct ExtendedSnapshot {
 
 extension ExtendedSnapshot: CustomDebugStringConvertible {
     public var debugDescription: String {
-        return "Snapshot:\nA: (\(buttonA.debugDescription))\t\tB: (\(buttonB.debugDescription))\nX: (\(buttonX.debugDescription)\t\tY: (\(buttonY.debugDescription)\nL1: (\(L1.debugDescription)\t\tL2: (\(L2.debugDescription)\nR1: (\(R1.debugDescription)\t\tR2: (\(R2.debugDescription)\nDPad: (\(directionalPad.debugDescription)\nLeft Joystick: (\(leftJoystick.debugDescription))\nRight Joystick: (\(rightJoystick.debugDescription)"
+        return "Snapshot:\nA: (\(buttonA.debugDescription))\t\tB: (\(buttonB.debugDescription))\nX: (\(buttonX.debugDescription)\t\tY: (\(buttonY.debugDescription)\nL1: (\(L1.debugDescription)\t\tL2: (\(L2.debugDescription)\nR1: (\(R1.debugDescription)\t\tR2: (\(R2.debugDescription)\nDPad: (\(dPad.debugDescription)\nLeft Joystick: (\(leftJoystick.debugDescription))\nRight Joystick: (\(rightJoystick.debugDescription)"
     }
 }
 

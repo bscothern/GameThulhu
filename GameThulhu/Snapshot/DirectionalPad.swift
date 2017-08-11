@@ -24,25 +24,23 @@ public struct DirectionalPad {
     /// The **right** button on the D-Pad.
     public let right: Button
     
-    /// Ranging from -1 (left) to 1 (right) depending on the value of the X-Axis on the D-Pad.
+    /// Ranging from `-1.0` (left) to `1.0` (right) depending on the value of the X-Axis on the D-Pad.
     public var xAxis: Float {
         return right.value - left.value
     }
     
-    /// Ranging from -1 (down) to 1 (up) depending on the value of the Y-Axis on the D-Pad.
+    /// Ranging from `-1.0` (down) to `1.0` (up) depending on the value of the Y-Axis on the D-Pad.
     public var yAxis: Float {
         return up.value - down.value
     }
     
-    /**
-     The main constructor for a DPad. A DPad represents the state of the D-Pad on a game controller.
-     
-     - parameters:
-         - up: The up button on the D-Pad.
-         - down: The down button on the D-Pad.
-         - left: The left button on the D-Pad.
-         - right: The right button on the D-Pad.
-     */
+    /// The main constructor for a DPad. A DPad represents the state of the D-Pad on a game controller.
+    ///
+    /// - Parameters:
+    ///   - up: The **up** button on the D-Pad.
+    ///   - down: The **down** button on the D-Pad.
+    ///   - left: The **left** button on the D-Pad.
+    ///   - right: The **right** button on the D-Pad.
     public init(up: Button, down: Button, left: Button, right: Button) {
         self.up = up
         self.down = down
@@ -50,11 +48,9 @@ public struct DirectionalPad {
         self.right = right
     }
     
-    /**
-     A convenient constructor for a DPad. It uses the default Apple representation and converts it.
-     - parameters:
-         - dpad: The dpad that should be converted.
-     */
+    /// A convenient constructor for a DPad. It uses the default Apple representation and converts it.
+    ///
+    /// - Parameter dpad: The directional pad that should be converted.
     public init(_ dpad: GCControllerDirectionPad) {
         self.init(up: Button(dpad.up), down: Button(dpad.down), left: Button(dpad.left), right: Button(dpad.right))
     }

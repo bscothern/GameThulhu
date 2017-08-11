@@ -38,6 +38,7 @@
 		F8B2E4F41F3AC43200E1BB5A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8B2E4F61F3AC55100E1BB5A /* GamepadElementProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamepadElementProtocol.swift; sourceTree = "<group>"; };
 		F8B2E4F81F3AC89F00E1BB5A /* ExtendedGamepadElementProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedGamepadElementProtocol.swift; sourceTree = "<group>"; };
+		F8E355AD1F3E255100ECED2E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +55,7 @@
 		F8B2E4C21F3AC32300E1BB5A = {
 			isa = PBXGroup;
 			children = (
+				F8E355AD1F3E255100ECED2E /* README.md */,
 				F8B2E4CE1F3AC32300E1BB5A /* GameThulhu */,
 				F8B2E4CD1F3AC32300E1BB5A /* Products */,
 			);

@@ -10,12 +10,10 @@ import Foundation
 import GameController
 
 public class MicroGamepad: Gamepad {
-    /**
-     Creates an `MicroController` if the given `GCController` is an `GCMicroGamepad`.
-     
-     - parameters:
-     - controller: The `GCController` which this `ExtendedController` should use. If the property `extendedGampead` returns `nil` this constructor will fail.
-     */
+
+    /// Creates an `MicroController` if the given `GCController` is an `GCMicroGamepad`.
+    ///
+    /// - parameter controller: The `GCController` which this `ExtendedController` should use. If the property `extendedGampead` returns `nil` this constructor will fail.
     public override init?(controller: GCController) {
         guard controller.microGamepad != nil else {
             return nil

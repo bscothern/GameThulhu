@@ -85,6 +85,33 @@ public class ExtendedGamepad: Gamepad {
     /// - rightJoystickLeft: The **Left** component of the **Right Joystick** on a controller
     /// - rightJoystickRight: The **Right** component of the **Right Joystick** on a controller
     public enum ButtonElement: ExtendedGamepadElementProtocol {
+        
+        /// The directions that a directional pad `ExtendedGamepad.ButtonElement` can be pushed when it is being considered as a button. This applies to the following `ExtendedGamepad.ButtonElement` values:
+        /// * `.dPad`
+        /// * `.leftJoystick`
+        /// * `.rightJoystick`
+        ///
+        /// The valid directions are:
+        ///
+        /// - up: The **Up** button of the directional pad `ButtonElement`
+        /// - down: The **Dowm** button of the directional pad `ButtonElement`
+        /// - left: The **Left** button of the directional pad `ButtonElement`
+        /// - right: The **Right** button of the directional pad `ButtonElement`
+        public enum Direction {
+            
+            /// The **Up** button of the directional pad `ButtonElement`
+            case up
+            
+            /// The **Dowm** button of the directional pad `ButtonElement`
+            case down
+            
+            /// The **Left** button of the directional pad `ButtonElement`
+            case left
+            
+            /// The **Right** button of the directional pad  `ButtonElement`
+            case right
+        }
+        
         /// The **A** button on a controller
         case buttonA
         /// The **B** button on a controller
@@ -104,31 +131,13 @@ public class ExtendedGamepad: Gamepad {
         case R2
         
         /// The **Up** button on a D-Pad
-        case dPadUp
-        /// The **Down** button on a D-Pad
-        case dPadDown
-        /// The **Left** button on a D-Pad
-        case dPadLeft
-        /// The **Right** button on a D-Pad
-        case dPadRight
+        case dPad(Direction)
         
-        /// The **Up** component of the **Left Joystick** on a controller
-        case leftJoystickUp
-        /// The **Down** component of the **Left Joystick** on a controller
-        case leftJoystickDown
-        /// The **Left** component of the **Left Joystick** on a controller
-        case leftJoystickLeft
-        /// The **Right** component of the **Left Joystick** on a controller
-        case leftJoystickRight
+        /// The **Left Joystick** on a controller and the `Direction` that is desired on it.
+        case leftJoystick(Direction)
         
         /// The **Up** component of the **Right Joystick** on a controller
-        case rightJoystickUp
-        /// The **Down** component of the **Right Joystick** on a controller
-        case rightJoystickDown
-        /// The **Left** component of the **Right Joystick** on a controller
-        case rightJoystickLeft
-        /// The **Right** component of the **Right Joystick** on a controller
-        case rightJoystickRight
+        case rightJoystick(Direction)
         
         public func gcElement(gamepad: GCExtendedGamepad) ->  GCControllerElement {
             switch self {
@@ -140,7 +149,7 @@ public class ExtendedGamepad: Gamepad {
                 return gamepad.buttonX
             case .buttonY:
                 return gamepad.buttonY
-                
+
             case .L1:
                 return gamepad.leftShoulder
             case .L2:
@@ -149,38 +158,56 @@ public class ExtendedGamepad: Gamepad {
                 return gamepad.rightShoulder
             case .R2:
                 return gamepad.rightTrigger
-            
-            case .dPadUp:
-                return gamepad.dpad.up
-            case .dPadDown:
-                return gamepad.dpad.down
-            case .dPadLeft:
-                return gamepad.dpad.left
-            case .dPadRight:
-                return gamepad.dpad.right
-            
-            case .leftJoystickUp:
-                return gamepad.leftThumbstick.up
-            case .leftJoystickDown:
-                return gamepad.leftThumbstick.down
-            case .leftJoystickLeft:
-                return gamepad.leftThumbstick.left
-            case .leftJoystickRight:
-                return gamepad.leftThumbstick.right
 
-            case .rightJoystickUp:
-                return gamepad.rightThumbstick.up
-            case .rightJoystickDown:
-                return gamepad.rightThumbstick.down
-            case .rightJoystickLeft:
-                return gamepad.rightThumbstick.left
-            case .rightJoystickRight:
-                return gamepad.rightThumbstick.right
+            case .dPad(let direction):
+                switch direction {
+                case .up:
+                    return gamepad.dpad.up
+                case .down:
+                    return gamepad.dpad.down
+                case .left:
+                    return gamepad.dpad.left
+                case .right:
+                    return gamepad.dpad.right
+                }
+
+            case .leftJoystick(let direction):
+                switch direction {
+                case .up:
+                    return gamepad.leftThumbstick.up
+                case .down:
+                    return gamepad.leftThumbstick.down
+                case .left:
+                    return gamepad.leftThumbstick.left
+                case .right:
+                    return gamepad.leftThumbstick.right
+                }
+
+            case .rightJoystick(let direction):
+                switch direction {
+                case .up:
+                    return gamepad.rightThumbstick.up
+                case .down:
+                    return gamepad.rightThumbstick.down
+                case .left:
+                    return gamepad.rightThumbstick.left
+                case .right:
+                    return gamepad.rightThumbstick.right
+                }
             }
         }
         
         public var element: Element {
             return .button(self)
+        }
+        
+        var direction: Direction? {
+            switch self {
+            case .dPad(let direction), .leftJoystick(let direction), .rightJoystick(let direction):
+                return direction
+            default:
+                return nil
+            }
         }
     }
     
@@ -274,20 +301,20 @@ public class ExtendedGamepad: Gamepad {
         elementMap[gamepad.rightShoulder] = ButtonElement.R1.element
         elementMap[gamepad.rightTrigger] = ButtonElement.R2.element
         
-        elementMap[gamepad.dpad.up] = ButtonElement.dPadUp.element
-        elementMap[gamepad.dpad.down] = ButtonElement.dPadDown.element
-        elementMap[gamepad.dpad.left] = ButtonElement.dPadLeft.element
-        elementMap[gamepad.dpad.right] = ButtonElement.dPadRight.element
+        elementMap[gamepad.dpad.up] = ButtonElement.dPad(.up).element
+        elementMap[gamepad.dpad.down] = ButtonElement.dPad(.down).element
+        elementMap[gamepad.dpad.left] = ButtonElement.dPad(.left).element
+        elementMap[gamepad.dpad.right] = ButtonElement.dPad(.right).element
         
-        elementMap[gamepad.leftThumbstick.up] = ButtonElement.leftJoystickUp.element
-        elementMap[gamepad.leftThumbstick.down] = ButtonElement.leftJoystickDown.element
-        elementMap[gamepad.leftThumbstick.left] = ButtonElement.leftJoystickLeft.element
-        elementMap[gamepad.leftThumbstick.right] = ButtonElement.leftJoystickRight.element
+        elementMap[gamepad.leftThumbstick.up] = ButtonElement.leftJoystick(.up).element
+        elementMap[gamepad.leftThumbstick.down] = ButtonElement.leftJoystick(.down).element
+        elementMap[gamepad.leftThumbstick.left] = ButtonElement.leftJoystick(.left).element
+        elementMap[gamepad.leftThumbstick.right] = ButtonElement.leftJoystick(.right).element
         
-        elementMap[gamepad.rightThumbstick.up] = ButtonElement.rightJoystickUp.element
-        elementMap[gamepad.rightThumbstick.down] = ButtonElement.rightJoystickDown.element
-        elementMap[gamepad.rightThumbstick.left] = ButtonElement.rightJoystickLeft.element
-        elementMap[gamepad.rightThumbstick.right] = ButtonElement.rightJoystickRight.element
+        elementMap[gamepad.rightThumbstick.up] = ButtonElement.rightJoystick(.up).element
+        elementMap[gamepad.rightThumbstick.down] = ButtonElement.rightJoystick(.down).element
+        elementMap[gamepad.rightThumbstick.left] = ButtonElement.rightJoystick(.left).element
+        elementMap[gamepad.rightThumbstick.right] = ButtonElement.rightJoystick(.right).element
         
         elementMap[gamepad.dpad] = DirectionalPadElement.dPad.element
         elementMap[gamepad.leftThumbstick] = DirectionalPadElement.leftJoystick.element
@@ -384,64 +411,62 @@ public class ExtendedGamepad: Gamepad {
 
 fileprivate extension GCControllerElement {
     func elementTypeFrom(gamepad: GCExtendedGamepad) -> ExtendedGamepad.Element? {
-        return { Void -> ExtendedGamepadElementProtocol? in
-            switch self {
-            case gamepad.buttonA:
-                return ExtendedGamepad.ButtonElement.buttonA
-            case gamepad.buttonB:
-                return ExtendedGamepad.ButtonElement.buttonB
-            case gamepad.buttonX:
-                return ExtendedGamepad.ButtonElement.buttonX
-            case gamepad.buttonY:
-                return ExtendedGamepad.ButtonElement.buttonY
-                
-            case gamepad.leftShoulder:
-                return ExtendedGamepad.ButtonElement.L1
-            case gamepad.leftTrigger:
-                return ExtendedGamepad.ButtonElement.L2
-            case gamepad.rightShoulder:
-                return ExtendedGamepad.ButtonElement.R1
-            case gamepad.rightTrigger:
-                return ExtendedGamepad.ButtonElement.R2
-                
-            case gamepad.dpad.up:
-                return ExtendedGamepad.ButtonElement.dPadUp
-            case gamepad.dpad.down:
-                return ExtendedGamepad.ButtonElement.dPadDown
-            case gamepad.dpad.left:
-                return ExtendedGamepad.ButtonElement.dPadLeft
-            case gamepad.dpad.right:
-                return ExtendedGamepad.ButtonElement.dPadRight
-                
-            case gamepad.leftThumbstick.up:
-                return ExtendedGamepad.ButtonElement.leftJoystickUp
-            case gamepad.leftThumbstick.down:
-                return ExtendedGamepad.ButtonElement.leftJoystickDown
-            case gamepad.leftThumbstick.left:
-                return ExtendedGamepad.ButtonElement.leftJoystickLeft
-            case gamepad.leftThumbstick.right:
-                return ExtendedGamepad.ButtonElement.leftJoystickRight
-                
-            case gamepad.rightThumbstick.up:
-                return ExtendedGamepad.ButtonElement.rightJoystickUp
-            case gamepad.rightThumbstick.down:
-                return ExtendedGamepad.ButtonElement.rightJoystickDown
-            case gamepad.rightThumbstick.left:
-                return ExtendedGamepad.ButtonElement.rightJoystickLeft
-            case gamepad.rightThumbstick.right:
-                return ExtendedGamepad.ButtonElement.rightJoystickRight
-                
-            case gamepad.dpad:
-                return ExtendedGamepad.DirectionalPadElement.dPad
-            case gamepad.leftThumbstick:
-                return ExtendedGamepad.DirectionalPadElement.leftJoystick
-            case gamepad.rightThumbstick:
-                return ExtendedGamepad.DirectionalPadElement.rightJoystick
-                
-            default:
-                return nil
-            }
-        }()?.element
+        switch self {
+        case gamepad.buttonA:
+            return ExtendedGamepad.ButtonElement.buttonA.element
+        case gamepad.buttonB:
+            return ExtendedGamepad.ButtonElement.buttonB.element
+        case gamepad.buttonX:
+            return ExtendedGamepad.ButtonElement.buttonX.element
+        case gamepad.buttonY:
+            return ExtendedGamepad.ButtonElement.buttonY.element
+            
+        case gamepad.leftShoulder:
+            return ExtendedGamepad.ButtonElement.L1.element
+        case gamepad.leftTrigger:
+            return ExtendedGamepad.ButtonElement.L2.element
+        case gamepad.rightShoulder:
+            return ExtendedGamepad.ButtonElement.R1.element
+        case gamepad.rightTrigger:
+            return ExtendedGamepad.ButtonElement.R2.element
+            
+        case gamepad.dpad.up:
+            return ExtendedGamepad.ButtonElement.dPad(.up).element
+        case gamepad.dpad.down:
+            return ExtendedGamepad.ButtonElement.dPad(.down).element
+        case gamepad.dpad.left:
+            return ExtendedGamepad.ButtonElement.dPad(.left).element
+        case gamepad.dpad.right:
+            return ExtendedGamepad.ButtonElement.dPad(.right).element
+            
+        case gamepad.leftThumbstick.up:
+            return ExtendedGamepad.ButtonElement.leftJoystick(.up).element
+        case gamepad.leftThumbstick.down:
+            return ExtendedGamepad.ButtonElement.leftJoystick(.down).element
+        case gamepad.leftThumbstick.left:
+            return ExtendedGamepad.ButtonElement.leftJoystick(.left).element
+        case gamepad.leftThumbstick.right:
+            return ExtendedGamepad.ButtonElement.leftJoystick(.right).element
+            
+        case gamepad.rightThumbstick.up:
+            return ExtendedGamepad.ButtonElement.rightJoystick(.up).element
+        case gamepad.rightThumbstick.down:
+            return ExtendedGamepad.ButtonElement.rightJoystick(.down).element
+        case gamepad.rightThumbstick.left:
+            return ExtendedGamepad.ButtonElement.rightJoystick(.left).element
+        case gamepad.rightThumbstick.right:
+            return ExtendedGamepad.ButtonElement.rightJoystick(.right).element
+            
+        case gamepad.dpad:
+            return ExtendedGamepad.DirectionalPadElement.dPad.element
+        case gamepad.leftThumbstick:
+            return ExtendedGamepad.DirectionalPadElement.leftJoystick.element
+        case gamepad.rightThumbstick:
+            return ExtendedGamepad.DirectionalPadElement.rightJoystick.element
+            
+        default:
+            return nil
+        }
     }
 }
 
