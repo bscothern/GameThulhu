@@ -20,7 +20,6 @@
 		F8B2E4F31F3AC38800E1BB5A /* ExtendedSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4E61F3AC38800E1BB5A /* ExtendedSnapshot.swift */; };
 		F8B2E4F71F3AC55100E1BB5A /* GamepadElementProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4F61F3AC55100E1BB5A /* GamepadElementProtocol.swift */; };
 		F8B2E4F91F3AC89F00E1BB5A /* ExtendedGamepadElementProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4F81F3AC89F00E1BB5A /* ExtendedGamepadElementProtocol.swift */; };
-		F8E355A91F3E235B00ECED2E /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = F8E355A81F3E235B00ECED2E /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +38,6 @@
 		F8B2E4F41F3AC43200E1BB5A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8B2E4F61F3AC55100E1BB5A /* GamepadElementProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamepadElementProtocol.swift; sourceTree = "<group>"; };
 		F8B2E4F81F3AC89F00E1BB5A /* ExtendedGamepadElementProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedGamepadElementProtocol.swift; sourceTree = "<group>"; };
-		F8E355A81F3E235B00ECED2E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +77,6 @@
 				F8B2E4E11F3AC38800E1BB5A /* HashableWeakVar.swift */,
 				F8B2E4E01F3AC38800E1BB5A /* GameThulhu.h */,
 				F8B2E4F41F3AC43200E1BB5A /* Info.plist */,
-				F8E355A81F3E235B00ECED2E /* README.md */,
 			);
 			path = GameThulhu;
 			sourceTree = "<group>";
@@ -200,7 +197,6 @@
 				F8B2E4F31F3AC38800E1BB5A /* ExtendedSnapshot.swift in Sources */,
 				F8B2E4EF1F3AC38800E1BB5A /* HashableWeakVar.swift in Sources */,
 				F8B2E4E81F3AC38800E1BB5A /* NSLocking.swift in Sources */,
-				F8E355A91F3E235B00ECED2E /* README.md in Sources */,
 				F8B2E4EC1F3AC38800E1BB5A /* Gamepad.swift in Sources */,
 				F8B2E4EB1F3AC38800E1BB5A /* ExtenededGamepad.swift in Sources */,
 				F8B2E4F71F3AC55100E1BB5A /* GamepadElementProtocol.swift in Sources */,
