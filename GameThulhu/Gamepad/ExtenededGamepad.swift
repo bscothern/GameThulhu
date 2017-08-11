@@ -29,6 +29,13 @@ public class ExtendedGamepad: Gamepad {
     ///     - pressed: A `Bool` value that indicates if the `button` is considered pressed when the callback is triggered.
     public typealias OnButtonChangeCallback = (_ gamepad: ExtendedGamepad, _ button: ButtonElement, _ value: Float, _  pressed: Bool) -> Void
     
+    /// A function that will be called when a value changes on any `ExtendedGamepad.DirectionalPadElement`.
+    ///
+    /// - parameters:
+    ///     - gamepad:
+    ///     - directionalPad:
+    ///     - xValue:
+    ///     - yValue:
     public typealias OnDirectionalPadChangeCallback = (_ gamepad: ExtendedGamepad, _ directionalPad: DirectionalPadElement, _ xValue: Float, _  yValue: Float) -> Void
     
     /// A `CallbackIdentifier` is given when adding a new callback. It can be used to remove the callback.
@@ -52,10 +59,6 @@ public class ExtendedGamepad: Gamepad {
             case .directionalPad(let directionalPad):
                 return directionalPad.gcElement(gamepad: gamepad)
             }
-        }
-        
-        var element: Element {
-            return self
         }
     }
     
@@ -251,12 +254,9 @@ public class ExtendedGamepad: Gamepad {
     
     //MARK:- Init
     
-    /**
-     Creates an `ExtendedController` if the given `GCController` is an `GCExtendedGamepad`.
-     
-     - parameters:
-        - controller: The `GCController` which this `ExtendedController` should use. If the property `extendedGampead` returns `nil` this constructor will fail.
-     */
+    /// Creates an `ExtendedController` if the given `GCController` is an `GCExtendedGamepad`.
+    ///
+    /// - Parameter controller: The `GCController` which this `ExtendedController` should use. If the property `extendedGampead` returns `nil` this constructor will fail.
     public override init?(controller: GCController) {
         guard controller.extendedGamepad != nil else {
             return nil

@@ -44,12 +44,10 @@ public struct ExtendedSnapshot {
     /// A `DirectionalPad` representing the **Right Joystick** on a controller.
     public let rightJoystick: DirectionalPad
     
-    /**
-     The constructor for an ExtendedSnapshot.
-     
-     - parameters:
-        - snapshot: The raw game controller snapshot that should be used to create the ExtendedSnapshot.
-     */
+    
+    /// The constructor for an ExtendedSnapshot.
+    ///
+    /// - Parameter snapshot: The raw game controller snapshot that should be used to create the ExtendedSnapshot.
     public init(_ snapshot: GCExtendedGamepadSnapshot) {
         buttonA = Button(snapshot.buttonA)
         buttonB = Button(snapshot.buttonB)

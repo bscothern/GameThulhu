@@ -12,28 +12,25 @@ import GameController
 /// This struct represents the state of a button on a game controller device
 public struct Button {
     
-    /// Ranging from 0 to 1 depending on the pressure on the button.
-    public var value: Float
+    /// Ranging from `0.0` to `1.0` depending on the pressure on the button.
+    public let value: Float
     
     /// If the system considers the button pressed.
-    public var isPressed: Bool
+    public let isPressed: Bool
     
-    /**
-     The main constructor for a Button. A Button represents the state of the Button on a game controller.
-     - parameters:
-         - value: Ranging from 0 to 1 depending on the pressure on the button.
-         - pressed: If the system considers the button pressed.
-     */
+    /// The main constructor for a Button. A Button represents the state of the Button on a game controller.
+    ///
+    /// - Parameters:
+    ///   - value: Ranging from `0.0` to `1.0` depending on the pressure on the button. This value is clamped.
+    ///   - isPressed: If the system considers the button pressed.
     public init(value: Float, isPressed: Bool) {
-        self.value = value //min(max(, 0.0), 1.0)
+        self.value = value.clamped(to: 0.0...1.0)
         self.isPressed = isPressed
     }
     
-    /**
-     A convenient constructor for a Button. It uses the default Apple representation and converts it.
-     - parameters:
-         - button: The button that should be converted.
-     */
+    /// A convenient constructor for a Button. It uses the default Apple representation and converts it.
+    ///
+    /// - Parameter button: The button that should be converted.
     public init(_ button: GCControllerButtonInput) {
         self.init(value: button.value, isPressed: button.isPressed)
     }

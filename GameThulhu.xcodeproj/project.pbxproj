@@ -10,7 +10,6 @@
 		F8B2E4E71F3AC38800E1BB5A /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4D81F3AC38800E1BB5A /* Float.swift */; };
 		F8B2E4E81F3AC38800E1BB5A /* NSLocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4D91F3AC38800E1BB5A /* NSLocking.swift */; };
 		F8B2E4E91F3AC38800E1BB5A /* GameControllerDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4DA1F3AC38800E1BB5A /* GameControllerDiscovery.swift */; };
-		F8B2E4EA1F3AC38800E1BB5A /* ControllerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4DC1F3AC38800E1BB5A /* ControllerButton.swift */; };
 		F8B2E4EB1F3AC38800E1BB5A /* ExtenededGamepad.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4DD1F3AC38800E1BB5A /* ExtenededGamepad.swift */; };
 		F8B2E4EC1F3AC38800E1BB5A /* Gamepad.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4DE1F3AC38800E1BB5A /* Gamepad.swift */; };
 		F8B2E4ED1F3AC38800E1BB5A /* MircroGamepad.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4DF1F3AC38800E1BB5A /* MircroGamepad.swift */; };
@@ -28,7 +27,6 @@
 		F8B2E4D81F3AC38800E1BB5A /* Float.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Float.swift; sourceTree = "<group>"; };
 		F8B2E4D91F3AC38800E1BB5A /* NSLocking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLocking.swift; sourceTree = "<group>"; };
 		F8B2E4DA1F3AC38800E1BB5A /* GameControllerDiscovery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameControllerDiscovery.swift; sourceTree = "<group>"; };
-		F8B2E4DC1F3AC38800E1BB5A /* ControllerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControllerButton.swift; sourceTree = "<group>"; };
 		F8B2E4DD1F3AC38800E1BB5A /* ExtenededGamepad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtenededGamepad.swift; sourceTree = "<group>"; };
 		F8B2E4DE1F3AC38800E1BB5A /* Gamepad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gamepad.swift; sourceTree = "<group>"; };
 		F8B2E4DF1F3AC38800E1BB5A /* MircroGamepad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MircroGamepad.swift; sourceTree = "<group>"; };
@@ -95,7 +93,6 @@
 		F8B2E4DB1F3AC38800E1BB5A /* Gamepad */ = {
 			isa = PBXGroup;
 			children = (
-				F8B2E4DC1F3AC38800E1BB5A /* ControllerButton.swift */,
 				F8B2E4DD1F3AC38800E1BB5A /* ExtenededGamepad.swift */,
 				F8B2E4DE1F3AC38800E1BB5A /* Gamepad.swift */,
 				F8B2E4DF1F3AC38800E1BB5A /* MircroGamepad.swift */,
@@ -203,7 +200,6 @@
 				F8B2E4EC1F3AC38800E1BB5A /* Gamepad.swift in Sources */,
 				F8B2E4EB1F3AC38800E1BB5A /* ExtenededGamepad.swift in Sources */,
 				F8B2E4F71F3AC55100E1BB5A /* GamepadElementProtocol.swift in Sources */,
-				F8B2E4EA1F3AC38800E1BB5A /* ControllerButton.swift in Sources */,
 				F8B2E4E91F3AC38800E1BB5A /* GameControllerDiscovery.swift in Sources */,
 				F8B2E4F11F3AC38800E1BB5A /* Button.swift in Sources */,
 				F8B2E4F21F3AC38800E1BB5A /* DirectionalPad.swift in Sources */,
