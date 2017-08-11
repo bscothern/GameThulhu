@@ -217,6 +217,7 @@ public class ExtendedGamepad: Gamepad {
         
         //MARK: Equatable
         public static func ==(lhs: ExtendedGamepad.ButtonElement, rhs: ExtendedGamepad.ButtonElement) -> Bool {
+            // While this is usually VERY BAD to do, it is ok in this case because we know that all the hashValues are unique, consistent, and that this will be fast.
             return lhs.hashValue == rhs.hashValue
         }
         
