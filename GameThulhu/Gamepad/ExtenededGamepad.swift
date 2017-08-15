@@ -18,7 +18,10 @@ public class ExtendedGamepad: Gamepad {
         case elementNotFound
     }
     
+    /// This tuple is used to budle a callback for buttons so the id and function can be put into an array.
     private typealias WrappedButtonCallback = (id: CallbackIdentifier, callback: OnButtonChangeCallback)
+    
+    /// This tuple is used to bundle a callback for directional pads so the id and function can be put into an array.
     private typealias WrappedDirectionalPadCallback = (id: CallbackIdentifier, callback: OnDirectionalPadChangeCallback)
     
     //MARK: Public
@@ -434,6 +437,10 @@ public class ExtendedGamepad: Gamepad {
         throw PrivateError.invaidElement
     }
     
+    /// Create an efficient callback for the given gcDirectionalPad.
+    ///
+    /// - Parameter gcDirectionalPad: The directional pad that will be watched with this callback.
+    /// - Throws: `PrivateError.elementNotFound` is thrown when the element cannot be found and `PrivateError.inalidElement` is thrown if the elemet is not a `ExtednedGamepad.Element.button` in the mapping
     private func createOnChangeDirectionalPadHandler(gcDirectionalPad: GCControllerDirectionPad) throws -> ((_ gcDirectionalPad: GCControllerDirectionPad, _ xValue: Float, _ yValue: Float) -> Void) {
         guard let element = (elementMap[gcDirectionalPad] ?? gcDirectionalPad.elementTypeFrom(gamepad: extendedGamepad)) else {
             throw PrivateError.elementNotFound
@@ -456,6 +463,12 @@ public class ExtendedGamepad: Gamepad {
     
     //MARK: Public
     
+    /// Register a new callback for the gamepad. If any element is changed then the callback will be executed.
+    ///
+    /// - Parameters:
+    ///   - callbackIdentifier: This should be a unique identifier for the callback. It can later be used to unsubscribe the given `callback`. When not given, a new `CallbackIdentifer` will be created and used.
+    ///   - callback: The function that should execute when an element of the gamepad changes.
+    /// - Returns: `callbackIdentifier` is always returned. If one was given then the same one is returned, if one wasn't given then the generated one is returned.
     @discardableResult public func onChange(callbackIdentifier: CallbackIdentifier = CallbackIdentifier(), callback: @escaping ValueChangeCallback) -> CallbackIdentifier {
         valueChangedCallbacksLock.execute {
             if self.valueChangedCallbacks.isEmpty {
@@ -469,12 +482,22 @@ public class ExtendedGamepad: Gamepad {
         return callbackIdentifier
     }
     
+    /// Remove a callback from the gamepad.
+    ///
+    /// - Parameter callbackIdentifier: The identifier that can be used to denote the callback that should be removed from the gamepad.
     public func unregisterValueChangedCallback(callbackIdentifier: CallbackIdentifier) {
         valueChangedCallbacksLock.execute {
             self.valueChangedCallbacks.removeValue(forKey: callbackIdentifier)
         }
     }
     
+    /// Register a new callback for the gamepad in relation to a specific button changing.
+    ///
+    /// - Parameters:
+    ///   - button: The `ExtendedGamepad.ButtonElement` that should be observed. When its value changes the `callback` will be executed.
+    ///   - callbackIdentifier: This should be a unique identifier for the callback. It can later be used to unsubscribe the given `callback`. When not given, a new `CallbackIdentifer` will be created and used.
+    ///   - callback: The function that should execute when the `button` value changes.
+    /// - Returns: `callbackIdentifier` is always returned. If one was given then the same one is returned, if one wasn't given then the generated one is returned.
     @discardableResult public func onChange(button: ButtonElement, callbackIdentifier: CallbackIdentifier = CallbackIdentifier(), callback: @escaping OnButtonChangeCallback) -> CallbackIdentifier {
         guard let gcButton = button.gcElement(gamepad: extendedGamepad) as? GCControllerButtonInput else {
             fatalError()

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F84C96C01F42885E0066D82B /* ExtnededGamepadDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84C96BF1F42885E0066D82B /* ExtnededGamepadDelegate.swift */; };
 		F8B2E4E71F3AC38800E1BB5A /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4D81F3AC38800E1BB5A /* Float.swift */; };
 		F8B2E4E81F3AC38800E1BB5A /* NSLocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4D91F3AC38800E1BB5A /* NSLocking.swift */; };
 		F8B2E4E91F3AC38800E1BB5A /* GameControllerDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4DA1F3AC38800E1BB5A /* GameControllerDiscovery.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F84C96BF1F42885E0066D82B /* ExtnededGamepadDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtnededGamepadDelegate.swift; sourceTree = "<group>"; };
 		F8B2E4CC1F3AC32300E1BB5A /* GameThulhu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GameThulhu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8B2E4D81F3AC38800E1BB5A /* Float.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Float.swift; sourceTree = "<group>"; };
 		F8B2E4D91F3AC38800E1BB5A /* NSLocking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLocking.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				F8B2E4DF1F3AC38800E1BB5A /* MircroGamepad.swift */,
 				F8B2E4F61F3AC55100E1BB5A /* GamepadElementProtocol.swift */,
 				F8B2E4F81F3AC89F00E1BB5A /* ExtendedGamepadElementProtocol.swift */,
+				F84C96BF1F42885E0066D82B /* ExtnededGamepadDelegate.swift */,
 			);
 			path = Gamepad;
 			sourceTree = "<group>";
@@ -202,6 +205,7 @@
 				F8B2E4EC1F3AC38800E1BB5A /* Gamepad.swift in Sources */,
 				F8B2E4EB1F3AC38800E1BB5A /* ExtenededGamepad.swift in Sources */,
 				F8B2E4F71F3AC55100E1BB5A /* GamepadElementProtocol.swift in Sources */,
+				F84C96C01F42885E0066D82B /* ExtnededGamepadDelegate.swift in Sources */,
 				F8B2E4E91F3AC38800E1BB5A /* GameControllerDiscovery.swift in Sources */,
 				F8B2E4F11F3AC38800E1BB5A /* Button.swift in Sources */,
 				F8B2E4F21F3AC38800E1BB5A /* DirectionalPad.swift in Sources */,
