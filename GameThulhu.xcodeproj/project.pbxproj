@@ -15,12 +15,10 @@
 		F8B2E4EC1F3AC38800E1BB5A /* Gamepad.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4DE1F3AC38800E1BB5A /* Gamepad.swift */; };
 		F8B2E4ED1F3AC38800E1BB5A /* MircroGamepad.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4DF1F3AC38800E1BB5A /* MircroGamepad.swift */; };
 		F8B2E4EE1F3AC38800E1BB5A /* GameThulhu.h in Headers */ = {isa = PBXBuildFile; fileRef = F8B2E4E01F3AC38800E1BB5A /* GameThulhu.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F8B2E4EF1F3AC38800E1BB5A /* HashableWeakVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4E11F3AC38800E1BB5A /* HashableWeakVar.swift */; };
 		F8B2E4F11F3AC38800E1BB5A /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4E41F3AC38800E1BB5A /* Button.swift */; };
 		F8B2E4F21F3AC38800E1BB5A /* DirectionalPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4E51F3AC38800E1BB5A /* DirectionalPad.swift */; };
 		F8B2E4F31F3AC38800E1BB5A /* ExtendedSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4E61F3AC38800E1BB5A /* ExtendedSnapshot.swift */; };
-		F8B2E4F71F3AC55100E1BB5A /* GamepadElementProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4F61F3AC55100E1BB5A /* GamepadElementProtocol.swift */; };
-		F8B2E4F91F3AC89F00E1BB5A /* ExtendedGamepadElementProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4F81F3AC89F00E1BB5A /* ExtendedGamepadElementProtocol.swift */; };
+		F8D5C8FB1F42C38600BC9A00 /* GamepadDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D5C8FA1F42C38600BC9A00 /* GamepadDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,13 +31,11 @@
 		F8B2E4DE1F3AC38800E1BB5A /* Gamepad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gamepad.swift; sourceTree = "<group>"; };
 		F8B2E4DF1F3AC38800E1BB5A /* MircroGamepad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MircroGamepad.swift; sourceTree = "<group>"; };
 		F8B2E4E01F3AC38800E1BB5A /* GameThulhu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameThulhu.h; sourceTree = "<group>"; };
-		F8B2E4E11F3AC38800E1BB5A /* HashableWeakVar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashableWeakVar.swift; sourceTree = "<group>"; };
 		F8B2E4E41F3AC38800E1BB5A /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		F8B2E4E51F3AC38800E1BB5A /* DirectionalPad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionalPad.swift; sourceTree = "<group>"; };
 		F8B2E4E61F3AC38800E1BB5A /* ExtendedSnapshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedSnapshot.swift; sourceTree = "<group>"; };
 		F8B2E4F41F3AC43200E1BB5A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F8B2E4F61F3AC55100E1BB5A /* GamepadElementProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamepadElementProtocol.swift; sourceTree = "<group>"; };
-		F8B2E4F81F3AC89F00E1BB5A /* ExtendedGamepadElementProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedGamepadElementProtocol.swift; sourceTree = "<group>"; };
+		F8D5C8FA1F42C38600BC9A00 /* GamepadDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamepadDelegate.swift; sourceTree = "<group>"; };
 		F8E355AD1F3E255100ECED2E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -78,7 +74,6 @@
 				F8B2E4DB1F3AC38800E1BB5A /* Gamepad */,
 				F8B2E4E31F3AC38800E1BB5A /* Snapshot */,
 				F8B2E4DA1F3AC38800E1BB5A /* GameControllerDiscovery.swift */,
-				F8B2E4E11F3AC38800E1BB5A /* HashableWeakVar.swift */,
 				F8B2E4E01F3AC38800E1BB5A /* GameThulhu.h */,
 				F8B2E4F41F3AC43200E1BB5A /* Info.plist */,
 			);
@@ -100,9 +95,8 @@
 				F8B2E4DD1F3AC38800E1BB5A /* ExtenededGamepad.swift */,
 				F8B2E4DE1F3AC38800E1BB5A /* Gamepad.swift */,
 				F8B2E4DF1F3AC38800E1BB5A /* MircroGamepad.swift */,
-				F8B2E4F61F3AC55100E1BB5A /* GamepadElementProtocol.swift */,
-				F8B2E4F81F3AC89F00E1BB5A /* ExtendedGamepadElementProtocol.swift */,
 				F84C96BF1F42885E0066D82B /* ExtnededGamepadDelegate.swift */,
+				F8D5C8FA1F42C38600BC9A00 /* GamepadDelegate.swift */,
 			);
 			path = Gamepad;
 			sourceTree = "<group>";
@@ -200,17 +194,15 @@
 			files = (
 				F8B2E4ED1F3AC38800E1BB5A /* MircroGamepad.swift in Sources */,
 				F8B2E4F31F3AC38800E1BB5A /* ExtendedSnapshot.swift in Sources */,
-				F8B2E4EF1F3AC38800E1BB5A /* HashableWeakVar.swift in Sources */,
 				F8B2E4E81F3AC38800E1BB5A /* NSLocking.swift in Sources */,
 				F8B2E4EC1F3AC38800E1BB5A /* Gamepad.swift in Sources */,
 				F8B2E4EB1F3AC38800E1BB5A /* ExtenededGamepad.swift in Sources */,
-				F8B2E4F71F3AC55100E1BB5A /* GamepadElementProtocol.swift in Sources */,
+				F8D5C8FB1F42C38600BC9A00 /* GamepadDelegate.swift in Sources */,
 				F84C96C01F42885E0066D82B /* ExtnededGamepadDelegate.swift in Sources */,
 				F8B2E4E91F3AC38800E1BB5A /* GameControllerDiscovery.swift in Sources */,
 				F8B2E4F11F3AC38800E1BB5A /* Button.swift in Sources */,
 				F8B2E4F21F3AC38800E1BB5A /* DirectionalPad.swift in Sources */,
 				F8B2E4E71F3AC38800E1BB5A /* Float.swift in Sources */,
-				F8B2E4F91F3AC89F00E1BB5A /* ExtendedGamepadElementProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
