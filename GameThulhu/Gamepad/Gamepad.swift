@@ -27,18 +27,7 @@ import GameController
             }
         }
     }
-    
-    private var _pauseHandler: PauseHandler? = nil
-    var pauseHandler: PauseHandler? {
-        get { return _pauseHandler }
-        set {
-            controller.controllerPausedHandler = { [weak self](controller: GCController) -> Void in
-                guard let _self = self else { return }
-                _self._pauseHandler?(_self)
-            }
-        }
-    }
-    
+
     internal init?(controller: GCController) {
         self.controller = controller
     }
