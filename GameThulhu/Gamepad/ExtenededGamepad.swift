@@ -14,15 +14,29 @@ import GameController
     //MARK:- Types
     //MARK: Public
     
+    /// An `Action` is the event callback type supported by `ButtonElement`s. This is used to identify which type of callback event to watch for.
     public enum Action {
-        case pressed
+        /// When the `value` input of a `ExtendedGamepadDelegate.ButtonCallback` changes.
         case changed
+        
+        /// When the `pressed` property of the `ExtendedGamepadDelegate.ButtonCallback` changes.
+        case pressed
     }
     
+    /// A wrapper around `ButtonElement` and `DirectionalPadElement` that is used as a generic type for either.
     public enum Element: Hashable {
+        /// Any `ButtonElement`.
         case button(button: ButtonElement)
+        
+        /// Any `DirectionalPadElement`.
         case dpad(dpad: DirectionalPadElement)
         
+        /// Determines if two `Element` values are equal.
+        ///
+        /// - Parameters:
+        ///   - lhs: An `Element` to compare.
+        ///   - rhs: Another `Element` to compare.
+        /// - Returns: `true` if both `Element` values are pointing to the same type of `Element`, otherwise `false`.
         public static func == (lhs: Element, rhs: Element) -> Bool {
             return lhs.hashValue == rhs.hashValue
         }
@@ -37,13 +51,24 @@ import GameController
         }
     }
     
+    /// The buttons supported on an `ExtendedGamepad`.
     public enum ButtonElement: Hashable {
+        /// The directional buttons supported by `DirectionalPadElement`s when considered as a button.
         public enum Direction {
+            
+            /// The up button of the directional pad.
             case up
+            
+            /// The down button of the directional pad.
             case down
+            
+            /// The left button of the directional pad.
             case left
+            
+            /// The right button of the directional pad.
             case right
             
+            /// Helper to `ButtonElement` so it can get a hashValue for the direction and use it to help identify the dpad elements
             fileprivate var hiddenHashValue: Int {
                 return {
                     switch self {
@@ -59,20 +84,46 @@ import GameController
                 }() * 100
             }
         }
+        
+        /// The **A** button.
         case buttonA
+        
+        /// The **B** button.
         case buttonB
+        
+        /// The **X** button.
         case buttonX
+        
+        /// The **Y** button.
         case buttonY
         
+        /// The **Top Left** trigger.
         case L1
+        
+        /// The **Bottom Left** trigger.
         case L2
+        
+        /// The **Top Right** trigger.
         case R1
+        
+        /// The **Bottom Right** trigger.
         case R2
         
+        /// The `Direction` of the **D-Pad** to consider as a button.
         case dPad(direction: Direction)
+        
+        /// The `Direction` of the **Left Joystick** to consider as a button.
         case leftJoystick(direction: Direction)
+        
+        /// The `Direction` of the **Right Joystick** to consider as a button.
         case rightJoystick(direction: Direction)
         
+        /// Determines if two `ButtonElements` have the same value.
+        ///
+        /// - Parameters:
+        ///   - lhs: A `ButtonElement` to compare.
+        ///   - rhs: Another `ButtonElement` to compare.
+        /// - Returns: `true` if the two `ButtonElement` values are the same, `false` otherwise.
         public static func ==(lhs: ButtonElement, rhs: ButtonElement) -> Bool {
             return lhs.hashValue == rhs.hashValue
         }
@@ -106,19 +157,37 @@ import GameController
             }
         }
         
+        /// Wrap this `ButtonElement` into an `Element.button`.
         fileprivate var element: Element {
             return Element.button(button: self)
         }
     }
     
+    /// The directional pads supported on an `ExtendedGamepad`.
     public enum DirectionalPadElement {
+        /// The **D-Pad** on the `ExtendedGamepad`.
         case dPad
+        
+        /// The **Left Joystick** on the `ExtendedGamepad`.
         case leftJoystick
+        
+        /// The **Right Joystick** on the `ExtednedGamepad`.
         case rightJoystick
         
+        /// Wrap this `DirectionalPadElement` into an `Element.dpad`.
         fileprivate var element: Element {
             return Element.dpad(dpad: self)
         }
+    }
+    
+    /// Use `ButtonProperty` values to have a button watch for a specific property and receive that value along with its callbacks.
+    @objc public enum ButtonProperty: Int {
+        case pressedDuration
+    }
+    
+    /// The value of a `ButtonProperty` wrapped up so it can be identified and strongly typed.
+    @objc public enum ButtonPropertyValue: Int {
+        case pressedDuration //(duration: TimeInterval)
     }
     
     //MARK:- Properties
@@ -129,8 +198,19 @@ import GameController
         return controller.extendedGamepad!
     }
     
+    /// Used to protect `buttonActionMap`.
     private let buttonActionMapLock = NSRecursiveLock()
+    
+    /// Used to keep track of the callback type for buttons.
+    /// - Note: Protected by `buttonActionMapLock`.
     private var buttonActionMap: [ButtonElement: Action] = [:]
+    
+    /// Used to protect `buttonPropertyMap`.
+    private let buttonPropertyMapLock = NSRecursiveLock()
+    
+    /// Used to keep track of the properties to observe for buttons.
+    /// - Note: Protected by `buttonPropertyMapLock`.
+    private var buttonPropertyMap: [ButtonElement: Set<ButtonProperty>] = [:]
     
     //MARK: Public
     
@@ -144,6 +224,8 @@ import GameController
         return extendedGamepad.saveSnapshot()
     }
     
+    /// This delegate has all of the callbacks that should be used by the `ExtendedGamepad`.
+    /// -Note: You this replaces `Gamepad.gamepadDelegate` with the value assigned.
     public weak var extendedGamepadDelegate: ExtendedGamepadDelegate? = nil {
         didSet {
             gamePadDelegate = extendedGamepadDelegate
@@ -198,6 +280,14 @@ import GameController
         }
     }
     
+    /// Sets up the callback for the `gcButton` while making sure it only sets it if valid.
+    ///
+    /// The callback set depends on the value of `buttonActionMap` so for performance reasons you should protect it before calling this function.
+    ///
+    /// - Parameters:
+    ///   - button: The `ButtonElement` that is being modified.
+    ///   - gcButton: The actual `GCControllerButtonInput` being modified.
+    ///   - callback: The callback function for the `gcButton`.
     @inline(__always) private func configureHandlers(button: ButtonElement, gcButton: GCControllerButtonInput, callback: ExtendedGamepadDelegate.ButtonCallback?) {
         switch buttonActionMap[button]! {
         case .changed:
@@ -207,7 +297,7 @@ import GameController
                     button.valueChangedHandler = nil
                     return
                 }
-                callback?(_self, value, pressed)
+                callback?(_self, value, pressed, properties)
             }
             
         case .pressed:
@@ -217,11 +307,16 @@ import GameController
                     button.pressedChangedHandler = nil
                     return
                 }
-                callback?(_self, value, pressed)
+                callback?(_self, value, pressed, properties)
             }
         }
     }
     
+    /// Sets up the callback for the `gcDPad` while making sure it is valid.
+    ///
+    /// - Parameters:
+    ///   - gcDPad: The `GCControllerDirectionaPad` that is being modified.
+    ///   - callback: The callback function for the `gcDPad`.
     @inline(__always) private func configureHandlers(gcDPad: GCControllerDirectionPad, callback: ExtendedGamepadDelegate.DirectionalPadCallback?) {
         gcDPad.valueChangedHandler = (callback == nil) ? nil:{ [weak self](dpad: GCControllerDirectionPad, xValue: Float, yValue: Float) -> Void in
             guard let _self = self else {
@@ -232,6 +327,7 @@ import GameController
         }
     }
     
+    /// Sets up all of the callbacks for the `ExtendedGamepad` with the current delegate values.
     private func configureExtendedGamepadDelegate() {
         //MARK: Verify extendedGamepadDelegate
         guard extendedGamepadDelegate != nil else {
@@ -278,6 +374,13 @@ import GameController
     }
     
     //MARK: Public
+    /// This is used to cahnge the `Action` that a `button` acts upon for its callback.
+    ///
+    /// The default value is always `Action.changed`. If you modify it with this it will be persistent across different delegate assignments.
+    ///
+    /// - Parameters:
+    ///   - button: The `ButtonElement` that should have its callback action modified.
+    ///   - action: The `Action` that should trigger a callback for the `button`.
     public func set(button: ButtonElement, action: Action) {
         buttonActionMapLock.execute {
             buttonActionMap[button] = action
@@ -287,6 +390,10 @@ import GameController
 }
 
 fileprivate extension GCExtendedGamepad {
+    /// Bridges a `ExtendedGamepad.ButtonElement` into the correct `GCControllerButtonInput` from the `GCExtendedGamepad`.
+    ///
+    /// - Parameter button: The `ButtonElement` that is desired from the `GCExtendedGamepad`.
+    /// - Returns: The `GCControllerButtonInput` that maps to the given `button`.
     func get(button: ExtendedGamepad.ButtonElement) -> GCControllerButtonInput {
         switch button {
         case .buttonA:
@@ -318,6 +425,11 @@ fileprivate extension GCExtendedGamepad {
 }
 
 fileprivate extension GCControllerDirectionPad {
+    
+    /// Bridge a `ExtendedGamepad.ButtonElement.Direction` from a `GCControllerDirectionalPad` to the `GCControllerButtonInput` of that directional pad.
+    ///
+    /// - Parameter direction: The direction desired from the `GCControllerDirectionalPad`.
+    /// - Returns: THe `GCControllerButtonInput` from the `GCControllerDirectionalPad` thata matches the given `direction`.
     func get(direction: ExtendedGamepad.ButtonElement.Direction) -> GCControllerButtonInput {
         switch direction {
         case .up:
@@ -333,6 +445,11 @@ fileprivate extension GCControllerDirectionPad {
 }
 
 fileprivate extension ExtendedGamepadDelegate {
+    
+    /// Attempt to get the callback from the `ExtendedGamepadDelegate` for a given `button`.
+    ///
+    /// - Parameter button: The `ButtonElement` that has the desired callback
+    /// - Returns: An `ExtendedGamepadDelegate.ButtonCallback` that matches the given `button` if it is implemented, `nil` otherwise.
     func get(button: ExtendedGamepad.ButtonElement) -> ExtendedGamepadDelegate.ButtonCallback? {
         switch button {
         case .buttonA:

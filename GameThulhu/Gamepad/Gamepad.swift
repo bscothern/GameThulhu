@@ -12,10 +12,11 @@ import GameController
 
 /// A wrapper class around `GCController` and its gamepad. Typically you should use `ExtendedController`, `MicroController`, or `TBD`
 @objc public class Gamepad: NSObject {
-    public typealias PauseHandler = (Gamepad) -> Void
-
+    ///MARK:- Properties
+    ///MARK: Internal
     internal let controller: GCController
     
+    ///MARK: Public
     public weak var gamePadDelegate: GamepadDelegate? = nil {
         didSet {
             controller.controllerPausedHandler = (gamePadDelegate?.pauseHandler == nil) ? nil:{ [weak self](controller: GCController) -> Void in
@@ -28,7 +29,8 @@ import GameController
         }
     }
 
-    internal init?(controller: GCController) {
+    ///MARK:- Init
+    public init?(controller: GCController) {
         self.controller = controller
     }
 }
