@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DirectionalPadActionType {
+public enum DirectionalPadActionType {
     case dPad
     case buttons
 }

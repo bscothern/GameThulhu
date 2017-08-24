@@ -8,10 +8,10 @@
 
 import UIKit
 
-extension UIResponder {
+internal extension UIResponder {
     private weak static var _currentFirstResponder: UIResponder? = nil
     
-    public class var currentFirstResponder: UIResponder? {
+    internal class var currentFirstResponder: UIResponder? {
         guard UIApplication.shared.sendAction(#selector(findFirstResponder(sender:)), to: nil, from: nil, for: nil) else {
             return nil
         }

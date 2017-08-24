@@ -20,4 +20,15 @@ public enum DirectionalPadType {
     
     /// The **Right Joystick**
     case rightJoystick
+    
+    func asButton(direction: ButtonType.Direction) -> ButtonType {
+        switch self {
+        case .dPad:
+            return .dPad(direction: direction)
+        case .leftJoystick:
+            return .leftJoystick(direction: direction)
+        case .rightJoystick:
+            return .rightJoystick(direction: direction)
+        }
+    }
 }
