@@ -10,24 +10,11 @@ import Foundation
 import GameController
 
 
-/// A wrapper class around `GCController` and its gamepad. Typically you should use `ExtendedController`, `MicroController`, or `TBD`
+/// A wrapper class around `GCController` and its gamepad. Typically you should use `ExtendedController` or `MicroController`. This just provides consistency and a super type to both Controller types.
 @objc public class Gamepad: NSObject {
     ///MARK:- Properties
     ///MARK: Internal
     internal let controller: GCController
-    
-    ///MARK: Public
-    public weak var gamePadDelegate: GamepadDelegate? = nil {
-        didSet {
-            controller.controllerPausedHandler = (gamePadDelegate?.pauseHandler == nil) ? nil:{ [weak self](controller: GCController) -> Void in
-                guard let _self = self else {
-                    controller.controllerPausedHandler = nil
-                    return
-                }
-                _self.gamePadDelegate?.pauseHandler?(gamepad: _self)
-            }
-        }
-    }
 
     ///MARK:- Init
     public init?(controller: GCController) {

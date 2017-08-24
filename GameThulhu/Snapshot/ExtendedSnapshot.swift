@@ -49,21 +49,20 @@ public struct ExtendedSnapshot {
     ///
     /// - Parameter snapshot: The raw game controller snapshot that should be used to create the ExtendedSnapshot.
     public init(_ snapshot: GCExtendedGamepadSnapshot) {
-        buttonA = Button(snapshot.buttonA)
-        buttonB = Button(snapshot.buttonB)
-        buttonX = Button(snapshot.buttonX)
-        buttonY = Button(snapshot.buttonY)
+        buttonA = Button(type: .buttonA, button: snapshot.buttonA)
+        buttonB = Button(type: .buttonB, button: snapshot.buttonB)
+        buttonX = Button(type: .buttonX, button: snapshot.buttonX)
+        buttonY = Button(type: .buttonY, button: snapshot.buttonY)
         
-        dPad = DirectionalPad(snapshot.dpad)
+        L1 = Button(type: .L1, button: snapshot.leftShoulder)
+        L2 = Button(type: .L2, button: snapshot.leftTrigger)
         
-        L1 = Button(snapshot.leftShoulder)
-        L2 = Button(snapshot.leftTrigger)
+        R1 = Button(type: .R1, button: snapshot.rightShoulder)
+        R2 = Button(type: .R2, button: snapshot.rightTrigger)
         
-        R1 = Button(snapshot.rightShoulder)
-        R2 = Button(snapshot.rightTrigger)
-        
-        leftJoystick = DirectionalPad(snapshot.leftThumbstick)
-        rightJoystick = DirectionalPad(snapshot.rightThumbstick)
+        dPad = DirectionalPad(type: .dPad, dPad: snapshot.dpad)
+        leftJoystick = DirectionalPad(type: .leftJoystick, dPad: snapshot.leftThumbstick)
+        rightJoystick = DirectionalPad(type: .rightJoystick, dPad: snapshot.rightThumbstick)
     }
 }
 

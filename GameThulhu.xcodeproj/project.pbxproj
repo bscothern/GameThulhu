@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		F84C96C01F42885E0066D82B /* ExtnededGamepadDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F84C96BF1F42885E0066D82B /* ExtnededGamepadDelegate.swift */; };
+		F86613E01F4F420E0014EEF0 /* ButtonCallbackType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86613DF1F4F420E0014EEF0 /* ButtonCallbackType.swift */; };
+		F86613E21F4F428B0014EEF0 /* DirectionalPadCallbackType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86613E11F4F428B0014EEF0 /* DirectionalPadCallbackType.swift */; };
+		F86613E41F4F6D030014EEF0 /* DirectionalPadActionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86613E31F4F6D030014EEF0 /* DirectionalPadActionType.swift */; };
 		F8B2E4E71F3AC38800E1BB5A /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4D81F3AC38800E1BB5A /* Float.swift */; };
 		F8B2E4E81F3AC38800E1BB5A /* NSLocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4D91F3AC38800E1BB5A /* NSLocking.swift */; };
 		F8B2E4E91F3AC38800E1BB5A /* GameControllerDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4DA1F3AC38800E1BB5A /* GameControllerDiscovery.swift */; };
@@ -18,11 +21,20 @@
 		F8B2E4F11F3AC38800E1BB5A /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4E41F3AC38800E1BB5A /* Button.swift */; };
 		F8B2E4F21F3AC38800E1BB5A /* DirectionalPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4E51F3AC38800E1BB5A /* DirectionalPad.swift */; };
 		F8B2E4F31F3AC38800E1BB5A /* ExtendedSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4E61F3AC38800E1BB5A /* ExtendedSnapshot.swift */; };
+		F8D5853F1F4E3BE800ED8D3F /* EventResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D5853E1F4E3BE800ED8D3F /* EventResponder.swift */; };
+		F8D585441F4E44A200ED8D3F /* ButtonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D585431F4E44A200ED8D3F /* ButtonType.swift */; };
+		F8D585461F4E459200ED8D3F /* DirectionalPadType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D585451F4E459200ED8D3F /* DirectionalPadType.swift */; };
+		F8D585481F4E4D4B00ED8D3F /* UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D585471F4E4D4B00ED8D3F /* UIResponder.swift */; };
+		F8D5854A1F4E4E2400ED8D3F /* NSCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D585491F4E4E2400ED8D3F /* NSCondition.swift */; };
+		F8D5854D1F4E4E7F00ED8D3F /* ConvenienceLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D5854C1F4E4E7F00ED8D3F /* ConvenienceLock.swift */; };
 		F8D5C8FB1F42C38600BC9A00 /* GamepadDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D5C8FA1F42C38600BC9A00 /* GamepadDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F84C96BF1F42885E0066D82B /* ExtnededGamepadDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtnededGamepadDelegate.swift; sourceTree = "<group>"; };
+		F86613DF1F4F420E0014EEF0 /* ButtonCallbackType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonCallbackType.swift; sourceTree = "<group>"; };
+		F86613E11F4F428B0014EEF0 /* DirectionalPadCallbackType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionalPadCallbackType.swift; sourceTree = "<group>"; };
+		F86613E31F4F6D030014EEF0 /* DirectionalPadActionType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionalPadActionType.swift; sourceTree = "<group>"; };
 		F8B2E4CC1F3AC32300E1BB5A /* GameThulhu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GameThulhu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8B2E4D81F3AC38800E1BB5A /* Float.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Float.swift; sourceTree = "<group>"; };
 		F8B2E4D91F3AC38800E1BB5A /* NSLocking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLocking.swift; sourceTree = "<group>"; };
@@ -35,6 +47,12 @@
 		F8B2E4E51F3AC38800E1BB5A /* DirectionalPad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionalPad.swift; sourceTree = "<group>"; };
 		F8B2E4E61F3AC38800E1BB5A /* ExtendedSnapshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtendedSnapshot.swift; sourceTree = "<group>"; };
 		F8B2E4F41F3AC43200E1BB5A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F8D5853E1F4E3BE800ED8D3F /* EventResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventResponder.swift; sourceTree = "<group>"; };
+		F8D585431F4E44A200ED8D3F /* ButtonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonType.swift; sourceTree = "<group>"; };
+		F8D585451F4E459200ED8D3F /* DirectionalPadType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionalPadType.swift; sourceTree = "<group>"; };
+		F8D585471F4E4D4B00ED8D3F /* UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIResponder.swift; sourceTree = "<group>"; };
+		F8D585491F4E4E2400ED8D3F /* NSCondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSCondition.swift; sourceTree = "<group>"; };
+		F8D5854C1F4E4E7F00ED8D3F /* ConvenienceLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvenienceLock.swift; sourceTree = "<group>"; };
 		F8D5C8FA1F42C38600BC9A00 /* GamepadDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamepadDelegate.swift; sourceTree = "<group>"; };
 		F8E355AD1F3E255100ECED2E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -70,6 +88,8 @@
 		F8B2E4CE1F3AC32300E1BB5A /* GameThulhu */ = {
 			isa = PBXGroup;
 			children = (
+				F8D5854B1F4E4E6D00ED8D3F /* Protocols */,
+				F8D585401F4E425A00ED8D3F /* EventResponder */,
 				F8B2E4D71F3AC38800E1BB5A /* Extensions */,
 				F8B2E4DB1F3AC38800E1BB5A /* Gamepad */,
 				F8B2E4E31F3AC38800E1BB5A /* Snapshot */,
@@ -85,6 +105,8 @@
 			children = (
 				F8B2E4D81F3AC38800E1BB5A /* Float.swift */,
 				F8B2E4D91F3AC38800E1BB5A /* NSLocking.swift */,
+				F8D585471F4E4D4B00ED8D3F /* UIResponder.swift */,
+				F8D585491F4E4E2400ED8D3F /* NSCondition.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -97,6 +119,9 @@
 				F8B2E4DF1F3AC38800E1BB5A /* MircroGamepad.swift */,
 				F84C96BF1F42885E0066D82B /* ExtnededGamepadDelegate.swift */,
 				F8D5C8FA1F42C38600BC9A00 /* GamepadDelegate.swift */,
+				F86613DF1F4F420E0014EEF0 /* ButtonCallbackType.swift */,
+				F86613E11F4F428B0014EEF0 /* DirectionalPadCallbackType.swift */,
+				F86613E31F4F6D030014EEF0 /* DirectionalPadActionType.swift */,
 			);
 			path = Gamepad;
 			sourceTree = "<group>";
@@ -107,8 +132,26 @@
 				F8B2E4E41F3AC38800E1BB5A /* Button.swift */,
 				F8B2E4E51F3AC38800E1BB5A /* DirectionalPad.swift */,
 				F8B2E4E61F3AC38800E1BB5A /* ExtendedSnapshot.swift */,
+				F8D585431F4E44A200ED8D3F /* ButtonType.swift */,
+				F8D585451F4E459200ED8D3F /* DirectionalPadType.swift */,
 			);
 			path = Snapshot;
+			sourceTree = "<group>";
+		};
+		F8D585401F4E425A00ED8D3F /* EventResponder */ = {
+			isa = PBXGroup;
+			children = (
+				F8D5853E1F4E3BE800ED8D3F /* EventResponder.swift */,
+			);
+			path = EventResponder;
+			sourceTree = "<group>";
+		};
+		F8D5854B1F4E4E6D00ED8D3F /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				F8D5854C1F4E4E7F00ED8D3F /* ConvenienceLock.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,8 +235,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F86613E01F4F420E0014EEF0 /* ButtonCallbackType.swift in Sources */,
+				F8D585461F4E459200ED8D3F /* DirectionalPadType.swift in Sources */,
+				F86613E21F4F428B0014EEF0 /* DirectionalPadCallbackType.swift in Sources */,
 				F8B2E4ED1F3AC38800E1BB5A /* MircroGamepad.swift in Sources */,
+				F86613E41F4F6D030014EEF0 /* DirectionalPadActionType.swift in Sources */,
+				F8D585441F4E44A200ED8D3F /* ButtonType.swift in Sources */,
 				F8B2E4F31F3AC38800E1BB5A /* ExtendedSnapshot.swift in Sources */,
+				F8D5854A1F4E4E2400ED8D3F /* NSCondition.swift in Sources */,
+				F8D5854D1F4E4E7F00ED8D3F /* ConvenienceLock.swift in Sources */,
 				F8B2E4E81F3AC38800E1BB5A /* NSLocking.swift in Sources */,
 				F8B2E4EC1F3AC38800E1BB5A /* Gamepad.swift in Sources */,
 				F8B2E4EB1F3AC38800E1BB5A /* ExtenededGamepad.swift in Sources */,
@@ -202,6 +252,8 @@
 				F8B2E4E91F3AC38800E1BB5A /* GameControllerDiscovery.swift in Sources */,
 				F8B2E4F11F3AC38800E1BB5A /* Button.swift in Sources */,
 				F8B2E4F21F3AC38800E1BB5A /* DirectionalPad.swift in Sources */,
+				F8D5853F1F4E3BE800ED8D3F /* EventResponder.swift in Sources */,
+				F8D585481F4E4D4B00ED8D3F /* UIResponder.swift in Sources */,
 				F8B2E4E71F3AC38800E1BB5A /* Float.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
