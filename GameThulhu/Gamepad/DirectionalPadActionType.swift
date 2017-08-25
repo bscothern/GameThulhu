@@ -12,7 +12,7 @@ import Foundation
 ///
 /// - dPad: A single `DirectionalPad` representation is desired.
 /// - buttons: 4 `Button` elements representation is desired.
-public enum DirectionalPadActionType {
+@objc public enum DirectionalPadActionType: Int {
     
     /// A single `DirectionalPad` representation is desired.
     case dPad

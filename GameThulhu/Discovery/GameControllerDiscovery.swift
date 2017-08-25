@@ -10,7 +10,7 @@ import GameController
 import NotificationCenter
 
 /// This class is used to simplify the process of knowing when a controller has connected or disconnected.
-public class GameControllerDiscovery {
+@objc public class GameControllerDiscovery: NSObject {
     
     /// A function that should be called on a controller connection/disconnection events.
     ///

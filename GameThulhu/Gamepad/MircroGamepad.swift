@@ -10,7 +10,7 @@ import Foundation
 import GameController
 
 /// **NOT YET SUPPORTED**
-public class MicroGamepad: Gamepad {
+@objc public class MicroGamepad: Gamepad {
 
     /// Creates an `MicroController` if the given `GCController` is an `GCMicroGamepad`.
     ///

@@ -10,7 +10,7 @@ import Foundation
 import GameController
 
 /// This struct represents the state of the D-Pad on a game controller device.
-public struct DirectionalPad: Hashable {
+@objc public class DirectionalPad: NSObject {
     
     /// The type of directional pad this is.
     public let type: DirectionalPadType
@@ -58,8 +58,8 @@ public struct DirectionalPad: Hashable {
     /// - Parameters:
     ///   - type: The type of directional pad this is.
     ///   - dPad: The `GCControllerDirectionPad` that should be converted.
-    public init(type: DirectionalPadType, dPad: GCControllerDirectionPad) {
-        self.init(type: type, up: Button(type: .dPad(direction: .up), button: dPad.up), down: Button(type: .dPad(direction: .down), button: dPad.down), left: Button(type: .dPad(direction: .left), button: dPad.left), right: Button(type: .dPad(direction: .right), button: dPad.right))
+    public convenience init(type: DirectionalPadType, dPad: GCControllerDirectionPad) {
+        self.init(type: type, up: Button(type: .dPadUpDirection, button: dPad.up), down: Button(type: .dPadDownDirection, button: dPad.down), left: Button(type: .dPadLeftDirection, button: dPad.left), right: Button(type: .dPadRightDirection, button: dPad.right))
     }
     
     //MARK:- Protocol Conformance
@@ -73,13 +73,13 @@ public struct DirectionalPad: Hashable {
     }
     
     //MARK: Hashable
-    public var hashValue: Int {
+    override public var hashValue: Int {
         return ((type.hashValue ^ up.hashValue) << 32) ^ (down.hashValue << 16) ^ (left.hashValue << 8) ^ right.hashValue
     }
 }
 
-extension DirectionalPad: CustomDebugStringConvertible {
-    public var debugDescription: String {
+extension DirectionalPad {
+    override public var debugDescription: String {
         return "DirectionalPad -\n\tUp: (\(up.debugDescription)\t\t\tDown: (\(down.debugDescription)\n\tLeft: (\(left.debugDescription)\t\tRight: (\(right.debugDescription)\n\txAxis: \(xAxis.format("%0.2"))\t\tyAxis: \(yAxis.format("%0.2"))"
     }
 }

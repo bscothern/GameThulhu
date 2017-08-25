@@ -10,7 +10,7 @@ import Foundation
 import GameController
 
 // This struct represents all of the data found at a moment of time from a game controller.
-public struct ExtendedSnapshot: Hashable {
+@objc public class ExtendedSnapshot: NSObject {
     /// A `Button` representing the the **A** button on a controller.
     public let buttonA: Button
     
@@ -82,15 +82,15 @@ public struct ExtendedSnapshot: Hashable {
     }
     
     //MARK: Hashable
-    public var hashValue: Int {
+    override public var hashValue: Int {
         return buttonA.hashValue ^ (buttonB.hashValue << 8) ^ (buttonX.hashValue << 16) ^ (buttonY.hashValue << 32) ^
             (L1.hashValue << 3) ^ (L2.hashValue << 9) ^ (R1.hashValue << 27) ^ (R2.hashValue << 17) ^ // (3^1 % 64), (3^2 % 64), (3^3 % 64), (3^4 % 64)
             dPad.hashValue ^ (leftJoystick.hashValue << 40) ^ (rightJoystick.hashValue << 48)
     }
 }
 
-extension ExtendedSnapshot: CustomDebugStringConvertible {
-    public var debugDescription: String {
+extension ExtendedSnapshot {
+    override public var debugDescription: String {
         return "Snapshot:\nA: (\(buttonA.debugDescription))\t\tB: (\(buttonB.debugDescription))\nX: (\(buttonX.debugDescription)\t\tY: (\(buttonY.debugDescription)\nL1: (\(L1.debugDescription)\t\tL2: (\(L2.debugDescription)\nR1: (\(R1.debugDescription)\t\tR2: (\(R2.debugDescription)\nDPad: (\(dPad.debugDescription)\nLeft Joystick: (\(leftJoystick.debugDescription))\nRight Joystick: (\(rightJoystick.debugDescription)"
     }
 }

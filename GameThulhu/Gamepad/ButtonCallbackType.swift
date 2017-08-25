@@ -13,7 +13,7 @@ import Foundation
 /// - began: Reresents `EventResponder.gamepadButtonPressBegan()`.
 /// - changed: Represents `EventResponder.gamepadButtonPressChanged()`.
 /// - ended: Represents `EventResponder.gamepadButtonPressEnded()`.
-enum ButtonCallbackType {
+@objc enum ButtonCallbackType: Int {
     
     /// Reresents `EventResponder.gamepadButtonPressBegan()`.
     case began

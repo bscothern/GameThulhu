@@ -13,7 +13,7 @@ import Foundation
 /// - began: Represents `EventResponder.gamepadDirectionalPadMovementBegan()`.
 /// - changed: Represents `EventResponder.gamepadDirectionalPadChanged()`.
 /// - ended: Represents `EventResponder.gamepadDirectionalPadMovementEnded()`.
-enum DirectionalPadCallbackType {
+@objc enum DirectionalPadCallbackType: Int {
     
     /// Represents `EventResponder.gamepadDirectionalPadMovementBegan()`.
     case began

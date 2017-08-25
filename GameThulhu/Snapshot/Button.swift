@@ -10,7 +10,7 @@ import Foundation
 import GameController
 
 /// This struct represents the state of a button on a game controller device
-public struct Button: Hashable {
+@objc public class Button: NSObject {
     
     /// The button elements type so you can identify which button this is on the `Gamepad`.
     public let type: ButtonType
@@ -38,7 +38,7 @@ public struct Button: Hashable {
     /// - Parameters
     ///   - type: The type of button this is.
     ///   - button: The `GCControllerButtonInput` that should be converted.
-    public init(type: ButtonType, button: GCControllerButtonInput) {
+    public convenience init(type: ButtonType, button: GCControllerButtonInput) {
         self.init(type: type, value: button.value, isPressed: button.isPressed)
     }
     
@@ -51,13 +51,13 @@ public struct Button: Hashable {
     }
     
     //MARK: Hashable
-    public var hashValue: Int {
+    override public var hashValue: Int {
         return (Int(value.bitPattern) * (isPressed ? 1:-1)) ^ (type.hashValue << 48)
     }
 }
 
-extension Button: CustomDebugStringConvertible {
-    public var debugDescription: String {
+extension Button {
+    override public var debugDescription: String {
         return "Button - isPressed: \(isPressed)\tvalue: \(value.format("%0.2"))"
     }
 }

@@ -9,7 +9,6 @@
 import Foundation
 import GameController
 
-
 /// A wrapper class around `GCController` and its gamepad. Typically you should use `ExtendedController` or `MicroController`. This just provides consistency and a super type to both Controller types.
 @objc public class Gamepad: NSObject {
     ///MARK:- Properties
