@@ -30,32 +30,32 @@ public protocol GamepadEventResponder {
     ///   - button: The `Button` that has been modifed.
     func gamepadButtonPressChanged(_ gamepad: Gamepad,_ button: Button)
     
-    /// The function that is called on the UIResponder chain when a gamepad button is done being modified and going back to its resting position.
+    /// The function that is called on the UIResponder chain when a gamepad button is done being modified and is back at its resting position.
     ///
     /// - Parameters:
     ///   - gamepad: The `Gamepad` that has the modified button.
     ///   - button: The `Button` that has been modifed.
     func gamepadButtonPressEnded(_ gamepad: Gamepad,_ button: Button)
     
-    /// <#Description#>
+    /// The function that is called on the UIResponder chain when a gamepad directional pad is first modified and leaves its resting position.
     ///
     /// - Parameters:
-    ///   - gamepad: <#gamepad description#>
-    ///   - dPad: <#dPad description#>
+    ///   - gamepad: The `Gamepad` that has the modified directional pad.
+    ///   - dPad: The `DirectionalPad` that has been modified.
     func gamepadDirectionalPadMovementBegan(_ gamepad: Gamepad, _ dPad: DirectionalPad)
     
-    /// <#Description#>
+    /// The function that is called on the UIResponder chain when a gamepad directional pad is being modified.
     ///
     /// - Parameters:
-    ///   - gamepad: <#gamepad description#>
-    ///   - dPad: <#dPad description#>
+    ///   - gamepad: The `Gamepad` that has the modified directional pad.
+    ///   - dPad: The `DirectionalPad` that has been modified.
     func gamepadDirectionalPadChanged(_ gamepad: Gamepad, _ dPad: DirectionalPad)
     
-    /// <#Description#>
+    /// The function that is called on the UIResponder chain when a gamepad directional pad is done being modified and is back at its resting position.
     ///
     /// - Parameters:
-    ///   - gamepad: <#gamepad description#>
-    ///   - dPad: <#dPad description#>
+    ///   - gamepad: The `Gamepad` that has the modified directional pad.
+    ///   - dPad: The `DirectionalPad` that has been modified.
     func gamepadDirectionalPadMovementEnded(_ gamepad: Gamepad, _ dPad: DirectionalPad)
 }
 
