@@ -21,6 +21,10 @@ public enum DirectionalPadType {
     /// The **Right Joystick**
     case rightJoystick
     
+    /// Brdige a `DirectionalPadType` into the correct `ButtonType` with the direction desired.
+    ///
+    /// - Parameter direction: A `ButtonType.Direction` that relates to this `DirectionalPadType` direction that is desired.
+    /// - Returns: A `ButtonType` that is in the given direction.
     func asButton(direction: ButtonType.Direction) -> ButtonType {
         switch self {
         case .dPad:

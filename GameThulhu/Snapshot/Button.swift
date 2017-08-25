@@ -45,13 +45,14 @@ public struct Button: Hashable {
     //MARK:- Protocol Conformance
     //MARK: Equatable
     public static func ==(lhs: Button, rhs: Button) -> Bool {
-        return lhs.value == rhs.value &&
+        return lhs.type == rhs.type &&
+            lhs.value == rhs.value &&
             lhs.isPressed == rhs.isPressed
     }
     
     //MARK: Hashable
     public var hashValue: Int {
-        return Int(value.bitPattern) * (isPressed ? 1:-1)
+        return (Int(value.bitPattern) * (isPressed ? 1:-1)) ^ (type.hashValue << 48)
     }
 }
 

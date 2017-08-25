@@ -18,7 +18,11 @@ import GameController
     //MARK:- Types
     //MARK: Private
     
-    private typealias Active = Bool
+    /// A helper class so each callback can keep its state without needing to protect it and have lock racing if lots of events are happening.
+    private class Resting {
+        /// When set to `false` the `Gamepad` element is not in the resting position. when `true` it is in the resting position.
+        var value: Bool = false
+    }
     
     //MARK:- Properties
     //MARK: Public
@@ -40,8 +44,11 @@ import GameController
         return controller.extendedGamepad!
     }
     
-    private var buttonCallbacksActive: [ButtonType: Active] = [:]
-    private var dPadCallbacksActive: [DirectionalPadType: Active] = [:]
+    /// Keeps track which buttons are in their resting position.
+    private var buttonCallbacksResting: [ButtonType: Resting] = [:]
+
+    /// Keeps track of which D-Pads are in their resting position.
+    private var dPadCallbacksResting: [DirectionalPadType: Resting] = [:]
     
     //MARK:- Init
     
@@ -59,6 +66,16 @@ import GameController
     
     //MARK:- Funcs
     //MARK: Public
+    
+    /// Use this function to change directional pad behavior between being a single `DirectionalPad` or 4 individual `Button` elements.
+    ///
+    /// When a directional pad is set to be a single `DirectionalPad` it uses the `EventResponder.gamepadDirectionalPad...` functions on the default UIResponder chain.
+    ///
+    /// When a directional pad is set to be 4 `Button` elements it uses the `EventResponder.gamepadButtonPress...` functions on the default UIResponder chain.
+    ///
+    /// - Parameters:
+    ///   - dPadType: The `DirectionalPadType` that should have its behavior updated.
+    ///   - actionType: The type of actions that the `dPadType` should take.
     public func use(dPadType: DirectionalPadType, as actionType: DirectionalPadActionType) {
         
         let dPad = getGCControllerDirectionPad(type: dPadType)
@@ -80,35 +97,37 @@ import GameController
     
     /// This will set up all of the default callbacks for the controller.
     private func configureCallbacks() {
-        buttonCallbacksActive[.buttonA] = false
-        buttonCallbacksActive[.buttonB] = false
+        buttonCallbacksResting[.buttonA] = Resting()
+        buttonCallbacksResting[.buttonB] = Resting()
         
-        buttonCallbacksActive[.buttonX] = false
-        buttonCallbacksActive[.buttonY] = false
+        buttonCallbacksResting[.buttonX] = Resting()
+        buttonCallbacksResting[.buttonY] = Resting()
         
-        buttonCallbacksActive[.L1] = false
-        buttonCallbacksActive[.L2] = false
+        buttonCallbacksResting[.L1] = Resting()
+        buttonCallbacksResting[.L2] = Resting()
         
-        buttonCallbacksActive[.R1] = false
-        buttonCallbacksActive[.R2] = false
+        buttonCallbacksResting[.R1] = Resting()
+        buttonCallbacksResting[.R2] = Resting()
         
-        dPadCallbacksActive[.dPad] = false
-        buttonCallbacksActive[.dPad(direction: .up)] = false
-        buttonCallbacksActive[.dPad(direction: .down)] = false
-        buttonCallbacksActive[.dPad(direction: .left)] = false
-        buttonCallbacksActive[.dPad(direction: .right)] = false
+        dPadCallbacksResting[.dPad] = Resting()
+        buttonCallbacksResting[.dPad(direction: .up)] = Resting()
+        buttonCallbacksResting[.dPad(direction: .down)] = Resting()
+        buttonCallbacksResting[.dPad(direction: .left)] = Resting()
+        buttonCallbacksResting[.dPad(direction: .right)] = Resting()
         
-        dPadCallbacksActive[.leftJoystick] = false
-        buttonCallbacksActive[.leftJoystick(direction: .up)] = false
-        buttonCallbacksActive[.leftJoystick(direction: .down)] = false
-        buttonCallbacksActive[.leftJoystick(direction: .left)] = false
-        buttonCallbacksActive[.leftJoystick(direction: .right)] = false
+        dPadCallbacksResting[.leftJoystick] = Resting()
+        buttonCallbacksResting[.leftJoystick(direction: .up)] = Resting()
+        buttonCallbacksResting[.leftJoystick(direction: .down)] = Resting()
+        buttonCallbacksResting[.leftJoystick(direction: .left)] = Resting()
+        buttonCallbacksResting[.leftJoystick(direction: .right)] = Resting()
         
-        dPadCallbacksActive[.rightJoystick] = false
-        buttonCallbacksActive[.rightJoystick(direction: .up)] = false
-        buttonCallbacksActive[.rightJoystick(direction: .down)] = false
-        buttonCallbacksActive[.rightJoystick(direction: .left)] = false
-        buttonCallbacksActive[.rightJoystick(direction: .right)] = false
+        dPadCallbacksResting[.rightJoystick] = Resting()
+        buttonCallbacksResting[.rightJoystick(direction: .up)] = Resting()
+        buttonCallbacksResting[.rightJoystick(direction: .down)] = Resting()
+        buttonCallbacksResting[.rightJoystick(direction: .left)] = Resting()
+        buttonCallbacksResting[.rightJoystick(direction: .right)] = Resting()
+        
+        controller.controllerPausedHandler = pauseHandler
         
         extendedGamepad.buttonA.valueChangedHandler = createButtonCallback(type: .buttonA)
         extendedGamepad.buttonB.valueChangedHandler = createButtonCallback(type: .buttonB)
@@ -127,21 +146,29 @@ import GameController
         extendedGamepad.rightThumbstick.valueChangedHandler = createDPadCallback(type: .rightJoystick)
     }
     
+    private func pauseHandler(controller: GCController) {
+        UIResponder.raiseGamepadPauseEvent(gamepad: self)
+    }
+    
     private func createButtonCallback(type: ButtonType) -> (GCControllerButtonInput, Float, Bool) -> Void {
-        return { [weak self](button: GCControllerButtonInput, value: Float, pressed: Bool) in
-            guard let _self = self else {
-                button.valueChangedHandler = nil
-                return
+        let resting = buttonCallbacksResting[type]!
+        
+        return { [weak self, weak resting](button: GCControllerButtonInput, value: Float, pressed: Bool) in
+            guard let _self = self,
+                let resting = resting
+                else {
+                    button.valueChangedHandler = nil
+                    return
             }
-            
+
             let button =  Button(type: type, button: button)
             let callbackType: ButtonCallbackType
             
             if (value == 0) {
-                _self.buttonCallbacksActive[type] = false
+                resting.value = true
                 callbackType = .ended
-            } else if _self.buttonCallbacksActive[type] == false {
-                _self.buttonCallbacksActive[type] = true
+            } else if resting.value {
+                resting.value = false
                 callbackType = .began
             } else {
                 callbackType = .changed
@@ -152,20 +179,24 @@ import GameController
     }
     
     private func createDPadCallback(type: DirectionalPadType) -> (GCControllerDirectionPad, Float, Float) -> Void {
-        return { [weak self](dPad: GCControllerDirectionPad, xValue: Float, yValue: Float) in
-            guard let _self = self else {
-                dPad.valueChangedHandler = nil
-                return
+        let resting = dPadCallbacksResting[type]!
+        
+        return { [weak self, weak resting](dPad: GCControllerDirectionPad, xValue: Float, yValue: Float) in
+            guard let _self = self,
+                let resting = resting
+                else {
+                    dPad.valueChangedHandler = nil
+                    return
             }
             
             let dPad = DirectionalPad(type: type, dPad: dPad)
             let callbackType: DirectionalPadCallbackType
             
             if (dPad.xAxis == 0 && dPad.yAxis == 0) {
-                _self.dPadCallbacksActive[type] = false
+                resting.value = true
                 callbackType = .ended
-            } else if _self.dPadCallbacksActive[type] == false {
-                _self.dPadCallbacksActive[type] = true
+            } else if resting.value {
+                resting.value = false
                 callbackType = .began
             } else {
                 callbackType = .changed
@@ -175,7 +206,11 @@ import GameController
         }
     }
     
-    private func getGCControllerDirectionPad(type: DirectionalPadType) -> GCControllerDirectionPad{
+    /// A convenience function to bridge a `DirectionalPadType` into the `GCControllerDirectionPad` it represents on the `extendedGamepad`.
+    ///
+    /// - Parameter type: The `DirectionalPadType` that is desired from the `extendedGamepad`.
+    /// - Returns: A `GCControllerDirectionaPad` from the `extendedGamepad` that is the `type` specified.
+    private func getGCControllerDirectionPad(type: DirectionalPadType) -> GCControllerDirectionPad {
         switch type {
         case .dPad:
             return extendedGamepad.dpad

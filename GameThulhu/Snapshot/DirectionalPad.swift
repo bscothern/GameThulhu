@@ -10,7 +10,7 @@ import Foundation
 import GameController
 
 /// This struct represents the state of the D-Pad on a game controller device.
-public struct DirectionalPad {
+public struct DirectionalPad: Hashable {
     
     /// The type of directional pad this is.
     public let type: DirectionalPadType
@@ -60,6 +60,21 @@ public struct DirectionalPad {
     ///   - dPad: The `GCControllerDirectionPad` that should be converted.
     public init(type: DirectionalPadType, dPad: GCControllerDirectionPad) {
         self.init(type: type, up: Button(type: .dPad(direction: .up), button: dPad.up), down: Button(type: .dPad(direction: .down), button: dPad.down), left: Button(type: .dPad(direction: .left), button: dPad.left), right: Button(type: .dPad(direction: .right), button: dPad.right))
+    }
+    
+    //MARK:- Protocol Conformance
+    //MARK: Equatable
+    public static func ==(lhs: DirectionalPad, rhs: DirectionalPad) -> Bool {
+        return lhs.type == rhs.type &&
+            lhs.up == rhs.up &&
+            lhs.down == rhs.down &&
+            lhs.left == rhs.left &&
+            lhs.right == rhs.right
+    }
+    
+    //MARK: Hashable
+    public var hashValue: Int {
+        return ((type.hashValue ^ up.hashValue) << 32) ^ (down.hashValue << 16) ^ (left.hashValue << 8) ^ right.hashValue
     }
 }
 

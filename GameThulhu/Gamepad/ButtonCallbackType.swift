@@ -8,8 +8,19 @@
 
 import Foundation
 
+/// The callback actions that can take place on a `Button`.
+///
+/// - began: Reresents `EventResponder.gamepadButtonPressBegan()`.
+/// - changed: Represents `EventResponder.gamepadButtonPressChanged()`.
+/// - ended: Represents `EventResponder.gamepadButtonPressEnded()`.
 enum ButtonCallbackType {
+    
+    /// Reresents `EventResponder.gamepadButtonPressBegan()`.
     case began
+    
+    /// Represents `EventResponder.gamepadButtonPressChanged()`.
     case changed
+    
+    /// Represents `EventResponder.gamepadButtonPressEnded()`.
     case ended
 }

@@ -10,7 +10,7 @@ import Foundation
 import GameController
 
 // This struct represents all of the data found at a moment of time from a game controller.
-public struct ExtendedSnapshot {
+public struct ExtendedSnapshot: Hashable {
     /// A `Button` representing the the **A** button on a controller.
     public let buttonA: Button
     
@@ -63,6 +63,29 @@ public struct ExtendedSnapshot {
         dPad = DirectionalPad(type: .dPad, dPad: snapshot.dpad)
         leftJoystick = DirectionalPad(type: .leftJoystick, dPad: snapshot.leftThumbstick)
         rightJoystick = DirectionalPad(type: .rightJoystick, dPad: snapshot.rightThumbstick)
+    }
+    
+    //MARK:- Protocol Conformance
+    //MARK: Equtable
+    public static func == (lhs: ExtendedSnapshot, rhs: ExtendedSnapshot) -> Bool {
+        return lhs.buttonA == rhs.buttonA &&
+            lhs.buttonB == rhs.buttonB &&
+            lhs.buttonX == rhs.buttonX &&
+            lhs.buttonY == rhs.buttonY &&
+            lhs.L1 == rhs.L1 &&
+            lhs.L2 == rhs.L2 &&
+            lhs.R1 == rhs.R1 &&
+            lhs.R2 == rhs.R2 &&
+            lhs.dPad == rhs.dPad &&
+            lhs.leftJoystick == rhs.leftJoystick &&
+            lhs.rightJoystick == rhs.rightJoystick
+    }
+    
+    //MARK: Hashable
+    public var hashValue: Int {
+        return buttonA.hashValue ^ (buttonB.hashValue << 8) ^ (buttonX.hashValue << 16) ^ (buttonY.hashValue << 32) ^
+            (L1.hashValue << 3) ^ (L2.hashValue << 9) ^ (R1.hashValue << 27) ^ (R2.hashValue << 17) ^ // (3^1 % 64), (3^2 % 64), (3^3 % 64), (3^4 % 64)
+            dPad.hashValue ^ (leftJoystick.hashValue << 40) ^ (rightJoystick.hashValue << 48)
     }
 }
 
