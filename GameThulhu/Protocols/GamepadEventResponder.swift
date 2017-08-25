@@ -9,6 +9,19 @@
 import UIKit
 
 /// The protocol that defines the UIResponder chain for Gamepads.
+///
+/// - Important:
+///     In order for this protocol to work you must have a first reponder on the UIResponder chain.
+///     To ensure that there is one you should have the following added to your UIViewController:
+///
+///       override var canBecomeFirstResponder: Bool {
+///           return true
+///       }
+///
+///     You **must** also make sure you call `becomeFirstResponder()` and `resignFirstResponder()` in
+///     `UIViewController.viewWillAppear(_:)` and `UIViewController.viewWillDisappear(_:)` respectively.
+///
+///     If you do all of these things the responder chain will work and the events will happen as expected.
 @objc public protocol GamepadEventResponder {
     //MARK:- Funcs
     
