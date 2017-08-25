@@ -21,7 +21,7 @@ import NotificationCenter
     public typealias Observer = NSObjectProtocol
     
     /// An array of controllers currently connected to the system
-    public var controllers: [GCController] {
+    public static var controllers: [GCController] {
         return GCController.controllers()
     }
     
