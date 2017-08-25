@@ -10,10 +10,6 @@ import Foundation
 import GameController
 
 /// This is a wrapper around GCExtendedGamepad that makes it easier to work with. It sets up all `EventResponder` callbacks.
-///
-/// - Note:
-///     Since all `DirectionalPadType` can also be worked with as 4 buttons, you will need to tell the `ExtendedGamepad` which of
-///     these should be considered a `ButtonType` instead. This can be changed via `use(dPadType:, as:)`.
 @objc public class ExtendedGamepad: Gamepad {
     //MARK:- Types
     //MARK: Private
@@ -43,12 +39,6 @@ import GameController
     private var extendedGamepad: GCExtendedGamepad {
         return controller.extendedGamepad!
     }
-    
-    /// Keeps track which buttons are in their resting position.
-    private var buttonCallbacksResting: [ButtonType: Resting] = [:]
-
-    /// Keeps track of which D-Pads are in their resting position.
-    private var dPadCallbacksResting: [DirectionalPadType: Resting] = [:]
     
     //MARK:- Init
     
@@ -83,13 +73,13 @@ import GameController
         switch actionType {
         case .dPad:
             dPad.makeButtonCallbacksNil()
-            dPad.valueChangedHandler = createDPadCallback(type: dPadType)
+            dPad.valueChangedHandler = createDPadHandler(type: dPadType)
         case .buttons:
             dPad.valueChangedHandler = nil
-            dPad.up.valueChangedHandler = createButtonCallback(type: dPadType.asButton(direction: .up))
-            dPad.down.valueChangedHandler = createButtonCallback(type: dPadType.asButton(direction: .down))
-            dPad.left.valueChangedHandler = createButtonCallback(type: dPadType.asButton(direction: .left))
-            dPad.right.valueChangedHandler = createButtonCallback(type: dPadType.asButton(direction: .right))
+            dPad.up.valueChangedHandler = createButtonHandler(type: dPadType.asButton(direction: .up))
+            dPad.down.valueChangedHandler = createButtonHandler(type: dPadType.asButton(direction: .down))
+            dPad.left.valueChangedHandler = createButtonHandler(type: dPadType.asButton(direction: .left))
+            dPad.right.valueChangedHandler = createButtonHandler(type: dPadType.asButton(direction: .right))
         }
     }
     
@@ -97,66 +87,43 @@ import GameController
     
     /// This will set up all of the default callbacks for the controller.
     private func configureCallbacks() {
-        buttonCallbacksResting[.buttonA] = Resting()
-        buttonCallbacksResting[.buttonB] = Resting()
-        
-        buttonCallbacksResting[.buttonX] = Resting()
-        buttonCallbacksResting[.buttonY] = Resting()
-        
-        buttonCallbacksResting[.L1] = Resting()
-        buttonCallbacksResting[.L2] = Resting()
-        
-        buttonCallbacksResting[.R1] = Resting()
-        buttonCallbacksResting[.R2] = Resting()
-        
-        dPadCallbacksResting[.dPad] = Resting()
-        buttonCallbacksResting[.dPad(direction: .up)] = Resting()
-        buttonCallbacksResting[.dPad(direction: .down)] = Resting()
-        buttonCallbacksResting[.dPad(direction: .left)] = Resting()
-        buttonCallbacksResting[.dPad(direction: .right)] = Resting()
-        
-        dPadCallbacksResting[.leftJoystick] = Resting()
-        buttonCallbacksResting[.leftJoystick(direction: .up)] = Resting()
-        buttonCallbacksResting[.leftJoystick(direction: .down)] = Resting()
-        buttonCallbacksResting[.leftJoystick(direction: .left)] = Resting()
-        buttonCallbacksResting[.leftJoystick(direction: .right)] = Resting()
-        
-        dPadCallbacksResting[.rightJoystick] = Resting()
-        buttonCallbacksResting[.rightJoystick(direction: .up)] = Resting()
-        buttonCallbacksResting[.rightJoystick(direction: .down)] = Resting()
-        buttonCallbacksResting[.rightJoystick(direction: .left)] = Resting()
-        buttonCallbacksResting[.rightJoystick(direction: .right)] = Resting()
-        
         controller.controllerPausedHandler = pauseHandler
         
-        extendedGamepad.buttonA.valueChangedHandler = createButtonCallback(type: .buttonA)
-        extendedGamepad.buttonB.valueChangedHandler = createButtonCallback(type: .buttonB)
+        extendedGamepad.buttonA.valueChangedHandler = createButtonHandler(type: .buttonA)
+        extendedGamepad.buttonB.valueChangedHandler = createButtonHandler(type: .buttonB)
         
-        extendedGamepad.buttonX.valueChangedHandler = createButtonCallback(type: .buttonX)
-        extendedGamepad.buttonY.valueChangedHandler = createButtonCallback(type: .buttonY)
+        extendedGamepad.buttonX.valueChangedHandler = createButtonHandler(type: .buttonX)
+        extendedGamepad.buttonY.valueChangedHandler = createButtonHandler(type: .buttonY)
         
-        extendedGamepad.leftShoulder.valueChangedHandler = createButtonCallback(type: .L1)
-        extendedGamepad.leftTrigger.valueChangedHandler = createButtonCallback(type: .L2)
+        extendedGamepad.leftShoulder.valueChangedHandler = createButtonHandler(type: .L1)
+        extendedGamepad.leftTrigger.valueChangedHandler = createButtonHandler(type: .L2)
         
-        extendedGamepad.rightShoulder.valueChangedHandler = createButtonCallback(type: .R1)
-        extendedGamepad.rightTrigger.valueChangedHandler = createButtonCallback(type: .R2)
+        extendedGamepad.rightShoulder.valueChangedHandler = createButtonHandler(type: .R1)
+        extendedGamepad.rightTrigger.valueChangedHandler = createButtonHandler(type: .R2)
         
-        extendedGamepad.dpad.valueChangedHandler = createDPadCallback(type: .dPad)
-        extendedGamepad.leftThumbstick.valueChangedHandler = createDPadCallback(type: .leftJoystick)
-        extendedGamepad.rightThumbstick.valueChangedHandler = createDPadCallback(type: .rightJoystick)
+        extendedGamepad.dpad.valueChangedHandler = createDPadHandler(type: .dPad)
+        extendedGamepad.leftThumbstick.valueChangedHandler = createDPadHandler(type: .leftJoystick)
+        extendedGamepad.rightThumbstick.valueChangedHandler = createDPadHandler(type: .rightJoystick)
     }
     
+    /// The pause button handler for the game controller. When it is called it raises the pause event on the default UIResponder chain.
+    ///
+    /// - Parameter controller: The Gamepad that has had its pause button pressed.
     private func pauseHandler(controller: GCController) {
         UIResponder.raiseGamepadPauseEvent(gamepad: self)
     }
     
-    private func createButtonCallback(type: ButtonType) -> (GCControllerButtonInput, Float, Bool) -> Void {
-        let resting = buttonCallbacksResting[type]!
+    /// Creates an optomized `GCControllerButtonValueChangedHandler` for the specified `type` of button.
+    ///
+    /// - Parameter type: The type of button that should have a callback handler created.
+    /// - Returns: A `GCControllerButtonValueChangedHandler` that handles change events for the specific `type` of button and puts the event on the default UIResponder chain.
+    private func createButtonHandler(type: ButtonType) -> GCControllerButtonValueChangedHandler {
         
-        return { [weak self, weak resting](button: GCControllerButtonInput, value: Float, pressed: Bool) in
-            guard let _self = self,
-                let resting = resting
-                else {
+        // This will be captured and used as state in the closure.
+        let resting = Resting()
+        
+        return { [weak self](button: GCControllerButtonInput, value: Float, pressed: Bool) in
+            guard let _self = self else {
                     button.valueChangedHandler = nil
                     return
             }
@@ -178,13 +145,17 @@ import GameController
         }
     }
     
-    private func createDPadCallback(type: DirectionalPadType) -> (GCControllerDirectionPad, Float, Float) -> Void {
-        let resting = dPadCallbacksResting[type]!
+    /// Creates an optomized `GCControllerDirectionPadValueChangedHandler` for the specified `type` of directional pad.
+    ///
+    /// - Parameter type: The type of directional pad that should have a callback handler created.
+    /// - Returns: A `GCControllerDirectionPadValueChangedHandler` that handles change events for the specified `type` of directional pad and puts the event on the default UIResponder chain.
+    private func createDPadHandler(type: DirectionalPadType) -> GCControllerDirectionPadValueChangedHandler {
         
-        return { [weak self, weak resting](dPad: GCControllerDirectionPad, xValue: Float, yValue: Float) in
-            guard let _self = self,
-                let resting = resting
-                else {
+        // This will be captured and used as state in the closure.
+        let resting = Resting()
+        
+        return { [weak self](dPad: GCControllerDirectionPad, xValue: Float, yValue: Float) in
+            guard let _self = self else {
                     dPad.valueChangedHandler = nil
                     return
             }
@@ -223,6 +194,7 @@ import GameController
 }
 
 fileprivate extension GCControllerDirectionPad {
+    /// A convenience function that makes all 4 buttons of the GCControllerDirectionalPad have `nil` as their `valueChangedHandler`.
     func makeButtonCallbacksNil() {
         up.valueChangedHandler = nil
         down.valueChangedHandler = nil
