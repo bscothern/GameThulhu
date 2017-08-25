@@ -8,15 +8,24 @@
 
 import UIKit
 
+/// The protocol that defines the UIResponder chain for Gamepads.
 public protocol GamepadEventResponder {
     //MARK:- Funcs
     
     /// The function that is called on the UIResponder chain when a gamepad has its pause button pressed.
     ///
+    /// - Important: If you want this event to continue up the UIResponder chain you must call
+    ///
+    ///       next?.gamepadPausePressed(gamepad)
+    ///
     /// - Parameter gamepad: The `Gamepad` that had its pause button pressed.
     func gamepadPausePressed(_ gamepad: Gamepad)
     
     /// The function that is called on the UIResponder chain when a gamepad button is first modified and leaves its resting position.
+    ///
+    /// - Important: If you want this event to continue up the UIResponder chain you must call
+    ///
+    ///       next?.gamepadButtonPressBegan(gamepad, button)
     ///
     /// - Parameters:
     ///   - gamepad: The `Gamepad` that has the modified button.
@@ -25,12 +34,20 @@ public protocol GamepadEventResponder {
     
     /// The function that is called on the UIResponder chain when a gamepad button is being modified.
     ///
+    /// - Important: If you want this event to continue up the UIResponder chain you must call
+    ///
+    ///       next?.gamepadButtonPressChanged(gamepad, button)
+    ///
     /// - Parameters:
     ///   - gamepad: The `Gamepad` that has the modified button.
     ///   - button: The `Button` that has been modifed.
     func gamepadButtonPressChanged(_ gamepad: Gamepad,_ button: Button)
     
     /// The function that is called on the UIResponder chain when a gamepad button is done being modified and is back at its resting position.
+    ///
+    /// - Important: If you want this event to continue up the UIResponder chain you must call
+    ///
+    ///       next?.gamepadButtonPressEnded(gamepad, button)
     ///
     /// - Parameters:
     ///   - gamepad: The `Gamepad` that has the modified button.
@@ -39,6 +56,10 @@ public protocol GamepadEventResponder {
     
     /// The function that is called on the UIResponder chain when a gamepad directional pad is first modified and leaves its resting position.
     ///
+    /// - Important: If you want this event to continue up the UIResponder chain you must call
+    ///
+    ///       next?.gamepadDirectionalPadMovementBegan(gamepad, dPad)
+    ///
     /// - Parameters:
     ///   - gamepad: The `Gamepad` that has the modified directional pad.
     ///   - dPad: The `DirectionalPad` that has been modified.
@@ -46,12 +67,20 @@ public protocol GamepadEventResponder {
     
     /// The function that is called on the UIResponder chain when a gamepad directional pad is being modified.
     ///
+    /// - Important: If you want this event to continue up the UIResponder chain you must call
+    ///
+    ///       next?.gamepadDirectionalPadChanged(gamepad, dPad)
+    ///
     /// - Parameters:
     ///   - gamepad: The `Gamepad` that has the modified directional pad.
     ///   - dPad: The `DirectionalPad` that has been modified.
     func gamepadDirectionalPadChanged(_ gamepad: Gamepad, _ dPad: DirectionalPad)
     
     /// The function that is called on the UIResponder chain when a gamepad directional pad is done being modified and is back at its resting position.
+    ///
+    /// - Important: If you want this event to continue up the UIResponder chain you must call
+    ///
+    ///       next?.gamepadDirectionalPadMovementEnded(gamepad, dPad)
     ///
     /// - Parameters:
     ///   - gamepad: The `Gamepad` that has the modified directional pad.
