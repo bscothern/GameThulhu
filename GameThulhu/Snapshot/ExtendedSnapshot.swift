@@ -83,9 +83,10 @@ import GameController
     
     //MARK: Hashable
     override public var hashValue: Int {
-        return buttonA.hashValue ^ (buttonB.hashValue << 8) ^ (buttonX.hashValue << 16) ^ (buttonY.hashValue << 32) ^
-            (L1.hashValue << 3) ^ (L2.hashValue << 9) ^ (R1.hashValue << 27) ^ (R2.hashValue << 17) ^ // (3^1 % 64), (3^2 % 64), (3^3 % 64), (3^4 % 64)
-            dPad.hashValue ^ (leftJoystick.hashValue << 40) ^ (rightJoystick.hashValue << 48)
+        let hash1 = buttonA.hashValue ^ (buttonB.hashValue << 8) ^ (buttonX.hashValue << 16) ^ (buttonY.hashValue << 32)
+        let hash2 = (L1.hashValue << 3) ^ (L2.hashValue << 9) ^ (R1.hashValue << 27) ^ (R2.hashValue << 17) // (3^1 % 64), (3^2 % 64), (3^3 % 64), (3^4 % 64)
+        let hash3 = dPad.hashValue ^ (leftJoystick.hashValue << 40) ^ (rightJoystick.hashValue << 48)
+        return hash1 ^ hash2 ^ hash3
     }
 }
 
