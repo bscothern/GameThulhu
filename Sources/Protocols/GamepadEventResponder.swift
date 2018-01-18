@@ -26,7 +26,12 @@
 // SOFTWARE.
 //
 
-import UIKit
+#if !os(macOS)
+    import UIKit
+#else
+    import Foundation
+#endif
+    
 
 /// The protocol that defines the UIResponder chain for Gamepads.
 ///
@@ -122,33 +127,35 @@ import UIKit
 }
 
 //MARK:- Default Implementation
-// These functions just pass the events up the UIResponder chain.
-extension UIResponder: GamepadEventResponder {
-    open func gamepadPausePressed(_ gamepad: Gamepad) {
-        next?.gamepadPausePressed(gamepad)
+#if !os(macOS)
+    // These functions just pass the events up the UIResponder chain.
+    extension UIResponder: GamepadEventResponder {
+        open func gamepadPausePressed(_ gamepad: Gamepad) {
+            next?.gamepadPausePressed(gamepad)
+        }
+        
+        open func gamepadButtonPressBegan(_ gamepad: Gamepad, _ button: Button) {
+            next?.gamepadButtonPressBegan(gamepad, button)
+        }
+        
+        open func gamepadButtonPressChanged(_ gamepad: Gamepad, _ button: Button) {
+            next?.gamepadButtonPressChanged(gamepad, button)
+        }
+        
+        open func gamepadButtonPressEnded(_ gamepad: Gamepad, _ button: Button) {
+            next?.gamepadButtonPressEnded(gamepad, button)
+        }
+        
+        open func gamepadDirectionalPadMovementBegan(_ gamepad: Gamepad, _ dPad: DirectionalPad) {
+            next?.gamepadDirectionalPadMovementBegan(gamepad, dPad)
+        }
+        
+        open func gamepadDirectionalPadChanged(_ gamepad: Gamepad, _ dPad: DirectionalPad) {
+            next?.gamepadDirectionalPadChanged(gamepad, dPad)
+        }
+        
+        open func gamepadDirectionalPadMovementEnded(_ gamepad: Gamepad, _ dPad: DirectionalPad) {
+            next?.gamepadDirectionalPadMovementEnded(gamepad, dPad)
+        }
     }
-
-    open func gamepadButtonPressBegan(_ gamepad: Gamepad, _ button: Button) {
-        next?.gamepadButtonPressBegan(gamepad, button)
-    }
-
-    open func gamepadButtonPressChanged(_ gamepad: Gamepad, _ button: Button) {
-        next?.gamepadButtonPressChanged(gamepad, button)
-    }
-
-    open func gamepadButtonPressEnded(_ gamepad: Gamepad, _ button: Button) {
-        next?.gamepadButtonPressEnded(gamepad, button)
-    }
-
-    open func gamepadDirectionalPadMovementBegan(_ gamepad: Gamepad, _ dPad: DirectionalPad) {
-        next?.gamepadDirectionalPadMovementBegan(gamepad, dPad)
-    }
-
-    open func gamepadDirectionalPadChanged(_ gamepad: Gamepad, _ dPad: DirectionalPad) {
-        next?.gamepadDirectionalPadChanged(gamepad, dPad)
-    }
-
-    open func gamepadDirectionalPadMovementEnded(_ gamepad: Gamepad, _ dPad: DirectionalPad) {
-        next?.gamepadDirectionalPadMovementEnded(gamepad, dPad)
-    }
-}
+#endif

@@ -49,7 +49,6 @@ import GameController
         self.controller = controller
 
         super.init()
-
         connectedObserver = GameControllerDiscovery.observeControllerConnected { [weak self](controller: GCController) in
             if controller == self?.controller {
                 self?.isConnected = true

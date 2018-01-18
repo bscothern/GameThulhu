@@ -130,7 +130,9 @@ import GameController
     ///
     /// - Parameter controller: The Gamepad that has had its pause button pressed.
     private func pauseHandler(controller: GCController) {
-        UIResponder.raiseGamepadPauseEvent(gamepad: self)
+        #if !os(macOS)
+            UIResponder.raiseGamepadPauseEvent(gamepad: self)
+        #endif
     }
 
     /// Creates an optomized `GCControllerButtonValueChangedHandler` for the specified `type` of button.
@@ -160,8 +162,9 @@ import GameController
             } else {
                 callbackType = .changed
             }
-
-            UIResponder.raiseGamepadEvent(gamepad: _self, button: button, callbackType: callbackType)
+            #if !os(macOS)
+                UIResponder.raiseGamepadEvent(gamepad: _self, button: button, callbackType: callbackType)
+            #endif
         }
     }
 
@@ -192,8 +195,9 @@ import GameController
             } else {
                 callbackType = .changed
             }
-
-            UIResponder.raiseGamepadEvent(gamepad: _self, dPad: dPad, callbackType: callbackType)
+            #if !os(macOS)
+                UIResponder.raiseGamepadEvent(gamepad: _self, dPad: dPad, callbackType: callbackType)
+            #endif
         }
     }
 
