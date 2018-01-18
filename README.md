@@ -5,5 +5,12 @@
 
 A framework to simplify the process of working with game controllers on iOS, macOS, and tvOS devices.
 
+## Carthage Usage
+
+Include this line in your `Cartfile`:
+```
+github "bscothern/GameThulhu"
+```
+
 ## Known Issues
 Currently macOS, tvOS, and MicroGamepad's aren't supported.
