@@ -5,6 +5,26 @@
 //  Created by Braden Scothern on 7/24/17.
 //  Copyright © 2017 DanceToaster LLC. All rights reserved.
 //
+// The MIT License (MIT)
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
 
 import Foundation
 import GameController
@@ -13,38 +33,37 @@ import GameController
 @objc public class ExtendedSnapshot: NSObject {
     /// A `Button` representing the the **A** button on a controller.
     public let buttonA: Button
-    
+
     /// A `Button` representing the the **B** button on a controller.
     public let buttonB: Button
-    
+
     /// A `Button` representing the the **X** button on a controller.
     public let buttonX: Button
-    
+
     /// A `Button` representing the the **Y** button on a controller.
     public let buttonY: Button
-    
+
     /// A `Button` representing the the **L1** bumper on a controller.
     public let L1: Button
-    
+
     /// A `Button` representing the the **L2** trigger on a controller.
     public let L2: Button
-    
+
     /// A `Button` representing the the **R1** bumper on a controller.
     public let R1: Button
-    
+
     /// A `Button` representing the the **R2** trigger on a controller.
     public let R2: Button
-    
+
     /// A `DirectionalPad` representing the **D-Pad** on a controller.
     public let dPad: DirectionalPad
-    
+
     /// A `DirectionalPad` representing the **Left Joystick** on a controller.
     public let leftJoystick: DirectionalPad
-    
+
     /// A `DirectionalPad` representing the **Right Joystick** on a controller.
     public let rightJoystick: DirectionalPad
-    
-    
+
     /// The constructor for an ExtendedSnapshot.
     ///
     /// - Parameter snapshot: The raw game controller snapshot that should be used to create the ExtendedSnapshot.
@@ -53,18 +72,18 @@ import GameController
         buttonB = Button(type: .buttonB, button: snapshot.buttonB)
         buttonX = Button(type: .buttonX, button: snapshot.buttonX)
         buttonY = Button(type: .buttonY, button: snapshot.buttonY)
-        
+
         L1 = Button(type: .L1, button: snapshot.leftShoulder)
         L2 = Button(type: .L2, button: snapshot.leftTrigger)
-        
+
         R1 = Button(type: .R1, button: snapshot.rightShoulder)
         R2 = Button(type: .R2, button: snapshot.rightTrigger)
-        
+
         dPad = DirectionalPad(type: .dPad, dPad: snapshot.dpad)
         leftJoystick = DirectionalPad(type: .leftJoystick, dPad: snapshot.leftThumbstick)
         rightJoystick = DirectionalPad(type: .rightJoystick, dPad: snapshot.rightThumbstick)
     }
-    
+
     //MARK:- Protocol Conformance
     //MARK: Equtable
     public static func == (lhs: ExtendedSnapshot, rhs: ExtendedSnapshot) -> Bool {
@@ -80,7 +99,7 @@ import GameController
             lhs.leftJoystick == rhs.leftJoystick &&
             lhs.rightJoystick == rhs.rightJoystick
     }
-    
+
     //MARK: Hashable
     override public var hashValue: Int {
         let hash1 = buttonA.hashValue ^ (buttonB.hashValue << 8) ^ (buttonX.hashValue << 16) ^ (buttonY.hashValue << 32)
@@ -95,6 +114,3 @@ extension ExtendedSnapshot {
         return "Snapshot:\nA: (\(buttonA.debugDescription))\t\tB: (\(buttonB.debugDescription))\nX: (\(buttonX.debugDescription)\t\tY: (\(buttonY.debugDescription)\nL1: (\(L1.debugDescription)\t\tL2: (\(L2.debugDescription)\nR1: (\(R1.debugDescription)\t\tR2: (\(R2.debugDescription)\nDPad: (\(dPad.debugDescription)\nLeft Joystick: (\(leftJoystick.debugDescription))\nRight Joystick: (\(rightJoystick.debugDescription)"
     }
 }
-
-
-
