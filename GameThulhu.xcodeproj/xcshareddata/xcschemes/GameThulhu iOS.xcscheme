@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F86F370D2011444D0070B68C"
-               BuildableName = "GameThulhu_iOS.framework"
+               BuildableName = "GameThulhu.framework"
                BlueprintName = "GameThulhu iOS"
                ReferencedContainer = "container:GameThulhu.xcodeproj">
             </BuildableReference>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F86F370D2011444D0070B68C"
-            BuildableName = "GameThulhu_iOS.framework"
+            BuildableName = "GameThulhu.framework"
             BlueprintName = "GameThulhu iOS"
             ReferencedContainer = "container:GameThulhu.xcodeproj">
          </BuildableReference>
@@ -67,7 +67,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F86F370D2011444D0070B68C"
-            BuildableName = "GameThulhu_iOS.framework"
+            BuildableName = "GameThulhu.framework"
             BlueprintName = "GameThulhu iOS"
             ReferencedContainer = "container:GameThulhu.xcodeproj">
          </BuildableReference>
@@ -85,7 +85,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F86F370D2011444D0070B68C"
-            BuildableName = "GameThulhu_iOS.framework"
+            BuildableName = "GameThulhu.framework"
             BlueprintName = "GameThulhu iOS"
             ReferencedContainer = "container:GameThulhu.xcodeproj">
          </BuildableReference>
