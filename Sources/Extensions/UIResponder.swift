@@ -34,7 +34,7 @@ internal extension UIResponder {
     class PauseEvent {
         /// The `Gamepad` which has had its pause button pressed.
         let gamepad: Gamepad
-        
+
         /// Create a `PauseEvent` to pass as the sender in `UIApplication.sendAction(_:to:from:for:)`.
         ///
         /// - Parameter gamepad: The `Gamepad` which has had its pause button pressed.

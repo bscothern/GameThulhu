@@ -33,8 +33,16 @@ import GameController
 @objc public class Gamepad: NSObject {
     ///MARK:- Properties
     //MARK: Private
-    private var connectedObserver: GameControllerDiscovery.Observer! = nil
-    private var disconnectedObserver: GameControllerDiscovery.Observer! = nil
+    private var connectedObserver: GameControllerDiscovery.Observer! = nil {
+        didSet {
+            (connectedObserver as? GameControllerDiscovery.CallbackObserver)?.isPublic = false
+        }
+    }
+    private var disconnectedObserver: GameControllerDiscovery.Observer! = nil {
+        didSet {
+            (disconnectedObserver as? GameControllerDiscovery.CallbackObserver)?.isPublic = false
+        }
+    }
 
     //MARK: Public
 

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F807113E2015B38E00EE91CC /* ConveniencedLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F4F7DC201315CC0005F141 /* ConveniencedLock.swift */; };
+		F807113F2015B38F00EE91CC /* ConveniencedLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F4F7DC201315CC0005F141 /* ConveniencedLock.swift */; };
+		F80711402015B3A000EE91CC /* NSRecursiveLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F4F7DE2013160C0005F141 /* NSRecursiveLock.swift */; };
+		F80711412015B3A000EE91CC /* NSRecursiveLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F4F7DE2013160C0005F141 /* NSRecursiveLock.swift */; };
 		F86F37172011444D0070B68C /* GameThulhu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86F370E2011444D0070B68C /* GameThulhu.framework */; };
 		F86F371C2011444D0070B68C /* GameThulhuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F86F371B2011444D0070B68C /* GameThulhuTests.swift */; };
 		F86F37332011448E0070B68C /* GameThulhu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F86F372A2011448E0070B68C /* GameThulhu.framework */; };
@@ -60,6 +64,8 @@
 		F86F378F201145BA0070B68C /* DirectionalPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4E51F3AC38800E1BB5A /* DirectionalPad.swift */; };
 		F86F3790201145BA0070B68C /* DirectionalPadType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D585451F4E459200ED8D3F /* DirectionalPadType.swift */; };
 		F86F3791201145BA0070B68C /* ExtendedSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B2E4E61F3AC38800E1BB5A /* ExtendedSnapshot.swift */; };
+		F8F4F7DD201315CC0005F141 /* ConveniencedLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F4F7DC201315CC0005F141 /* ConveniencedLock.swift */; };
+		F8F4F7DF2013160C0005F141 /* NSRecursiveLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8F4F7DE2013160C0005F141 /* NSRecursiveLock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +120,8 @@
 		F8D585451F4E459200ED8D3F /* DirectionalPadType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionalPadType.swift; sourceTree = "<group>"; };
 		F8D585471F4E4D4B00ED8D3F /* UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIResponder.swift; sourceTree = "<group>"; };
 		F8E355AD1F3E255100ECED2E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F8F4F7DC201315CC0005F141 /* ConveniencedLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConveniencedLock.swift; sourceTree = "<group>"; };
+		F8F4F7DE2013160C0005F141 /* NSRecursiveLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSRecursiveLock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +249,7 @@
 			children = (
 				F8B2E4D81F3AC38800E1BB5A /* Float.swift */,
 				F8D585471F4E4D4B00ED8D3F /* UIResponder.swift */,
+				F8F4F7DE2013160C0005F141 /* NSRecursiveLock.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -274,6 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				F8D5853E1F4E3BE800ED8D3F /* GamepadEventResponder.swift */,
+				F8F4F7DC201315CC0005F141 /* ConveniencedLock.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -538,9 +548,11 @@
 				F86F376A201145900070B68C /* MircroGamepad.swift in Sources */,
 				F86F376B201145900070B68C /* GamepadEventResponder.swift in Sources */,
 				F86F376C201145900070B68C /* Button.swift in Sources */,
+				F8F4F7DD201315CC0005F141 /* ConveniencedLock.swift in Sources */,
 				F86F376D201145900070B68C /* ButtonType.swift in Sources */,
 				F86F376E201145900070B68C /* DirectionalPad.swift in Sources */,
 				F86F376F201145900070B68C /* DirectionalPadType.swift in Sources */,
+				F8F4F7DF2013160C0005F141 /* NSRecursiveLock.swift in Sources */,
 				F86F3770201145900070B68C /* ExtendedSnapshot.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -559,9 +571,11 @@
 			files = (
 				F86F3773201145AD0070B68C /* GameControllerDiscovery.swift in Sources */,
 				F86F3774201145AD0070B68C /* Float.swift in Sources */,
+				F80711402015B3A000EE91CC /* NSRecursiveLock.swift in Sources */,
 				F86F3776201145AD0070B68C /* ButtonCallbackType.swift in Sources */,
 				F86F3777201145AD0070B68C /* DirectionalPadActionType.swift in Sources */,
 				F86F3778201145AD0070B68C /* DirectionalPadCallbackType.swift in Sources */,
+				F807113E2015B38E00EE91CC /* ConveniencedLock.swift in Sources */,
 				F86F3779201145AD0070B68C /* ExtenededGamepad.swift in Sources */,
 				F86F377A201145AD0070B68C /* Gamepad.swift in Sources */,
 				F86F377B201145AD0070B68C /* MircroGamepad.swift in Sources */,
@@ -597,6 +611,8 @@
 				F86F378B201145BA0070B68C /* MircroGamepad.swift in Sources */,
 				F86F378C201145BA0070B68C /* GamepadEventResponder.swift in Sources */,
 				F86F378D201145BA0070B68C /* Button.swift in Sources */,
+				F807113F2015B38F00EE91CC /* ConveniencedLock.swift in Sources */,
+				F80711412015B3A000EE91CC /* NSRecursiveLock.swift in Sources */,
 				F86F378E201145BA0070B68C /* ButtonType.swift in Sources */,
 				F86F378F201145BA0070B68C /* DirectionalPad.swift in Sources */,
 				F86F3790201145BA0070B68C /* DirectionalPadType.swift in Sources */,
