@@ -49,8 +49,10 @@ import GameController
 
     //MARK: Internal
 
-    /// The type used to keep track of
+    /// The type used to keep track of callbacks.
     internal class CallbackObserver: Hashable {
+
+        /// When set to `false` it is assumed to be an `GameThulhu` callback function meaning it should execute before any public callbacks.
         internal var isPublic: Bool = true
 
         internal var hashValue: Int {
@@ -72,8 +74,10 @@ import GameController
 
     //MARK: Private Static
 
-    // Connected callbacks
+    /// The lock that protects `GameControllerDiscovery.connectedCallbacks`.
     private static let connectedCallbacksLock = NSRecursiveLock()
+
+    /// The map of observer to callbacks that should be executed on a GCController connect event.
     private static var connectedCallbacks: [CallbackObserver: ConnectionEventCallback] = [:] {
         didSet {
             if GameControllerDiscovery.connectedCallbacks.count == 0 {
@@ -85,7 +89,11 @@ import GameController
             }
         }
     }
+
+    /// The lock that protects `GameControllerDiscovery.connectedObserver`.
     private static let connectedObserverLock = NSRecursiveLock()
+
+    /// The NotificationCenter callback observer that identifies the connect event callback for `GCController`'s.
     private static var connectedObserver: NSObjectProtocol? {
         willSet {
             guard let connectedObserver = GameControllerDiscovery.connectedObserver else {
@@ -95,8 +103,10 @@ import GameController
         }
     }
 
-    // Disconnected callbacks
+    // The lock that protects `GameControllerDiscovery.disconnectedCallbacks`.
     private static let disconnectedCallbacksLock = NSRecursiveLock()
+
+    /// The map of observer to callbacks that should be executed on a GCController disconnect event.
     private static var disconnectedCallbacks: [CallbackObserver: ConnectionEventCallback] = [:] {
         didSet {
             if GameControllerDiscovery.disconnectedCallbacks.count == 0 {
@@ -108,7 +118,11 @@ import GameController
             }
         }
     }
+
+    // The lock that protects `GameControllerDiscovery.disconnectedObserver`.
     private static let disconnectedObserverLock = NSRecursiveLock()
+
+    /// The NotificationCenter callback observer that identifies the disconnect event callback for `GCController`'s.
     private static var disconnectedObserver: NSObjectProtocol? {
         willSet {
             guard let disconnectedObserver = GameControllerDiscovery.disconnectedObserver else {
@@ -169,9 +183,9 @@ import GameController
         }
     }
 
-    //MARK: Internal Static
-
     //MARK: Private Static
+
+    /// Ensure that NotificationCenter is watching for GCController connect events and going to call our callbacks.
     private static func setConnectObseverFunc() {
         GameControllerDiscovery.connectedObserverLock.execute {
             guard GameControllerDiscovery.connectedObserver == nil else {
@@ -182,6 +196,7 @@ import GameController
                     return
                 }
                 GameControllerDiscovery.connectedCallbacksLock.execute {
+                    // Call internal callbacks before public ones
                     for callback in GameControllerDiscovery.connectedCallbacks.filter({ !$0.key.isPublic }).values {
                         callback(controller)
                     }
@@ -193,6 +208,7 @@ import GameController
         }
     }
 
+    /// Ensure that NotificationCenter is watching for GCController disconnect events and going to call our callbacks.
     private static func setDisconnectObserverFunc() {
         GameControllerDiscovery.disconnectedObserverLock.execute {
             guard GameControllerDiscovery.disconnectedObserver == nil else {
@@ -203,6 +219,7 @@ import GameController
                     return
                 }
                 GameControllerDiscovery.disconnectedCallbacksLock.execute {
+                    // Call internal callbacks before public ones
                     for callback in GameControllerDiscovery.disconnectedCallbacks.filter({ !$0.key.isPublic }).values {
                         callback(controller)
                     }
