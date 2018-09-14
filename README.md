@@ -5,12 +5,24 @@
 
 A framework to simplify the process of working with game controllers on iOS, macOS, and tvOS devices.
 
+
 ## Carthage Usage
 
 Include this line in your `Cartfile`:
 ```
-github "bscothern/GameThulhu"
+github "bscothern/GameThulhu" == [version]
 ```
 
+
+# Versions
+### Swift 4.2
+To target iOS 12.0, macos 10.14, or tvOS 12.0 use version `v0.2.1`
+
+To target iOS 11.0, macOS 10.13, or tvOS 11.2 use version `v0.2.0`
+
+### Swift 4.1
+To target iOS 11.0, macOS 10.13, or tvOS 11.2 use version `v0.1.2`
+
+
 ## Known Issues
-Currently macOS, tvOS, and MicroGamepad's aren't supported.
+Currently macOS, tvOS, and `MicroGamepad`'s aren't fully supported.
