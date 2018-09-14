@@ -93,7 +93,7 @@ import GameController
     }
 
     //MARK: Hashable
-    override public var hashValue: Int {
+    override public var hash: Int {
         return ((type.hashValue ^ up.hashValue) << 32) ^ (down.hashValue << 16) ^ (left.hashValue << 8) ^ right.hashValue
     }
 }

@@ -71,7 +71,7 @@ import GameController
     }
 
     //MARK: Hashable
-    override public var hashValue: Int {
+    override public var hash: Int {
         return (Int(value.bitPattern) * (isPressed ? 1:-1)) ^ (type.hashValue << 48)
     }
 }
